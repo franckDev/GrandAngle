@@ -1,0 +1,24 @@
+telephone_index:
+    path:     /
+    defaults: { _controller: "ModuleGestionBundle:Telephone:index" }
+    methods:  GET
+
+telephone_show:
+    path:     /{id}/show
+    defaults: { _controller: "ModuleGestionBundle:Telephone:show" }
+    methods:  GET
+
+telephone_new:
+    path:     /new
+    defaults: { _controller: "ModuleGestionBundle:Telephone:new" }
+    methods:  [GET, POST]
+
+telephone_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ModuleGestionBundle:Telephone:edit" }
+    methods:  [GET, POST]
+
+telephone_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ModuleGestionBundle:Telephone:delete" }
+    methods:  DELETE

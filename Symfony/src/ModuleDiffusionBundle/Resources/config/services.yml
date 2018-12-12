@@ -1,0 +1,4 @@
+services:
+#    module_diffusion.example:
+#        class: ModuleDiffusionBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

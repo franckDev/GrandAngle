@@ -1,0 +1,167 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+{{ form_start(form) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Ajout d'une nouvelle exposition
+        </div>
+        <div class="container">
+        <div id="lienrow" class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        {# Erreurs générales du formulaire #}
+                        {{ form_errors(form) }}
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(form.nomExposition, "Nom", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(form.nomExposition) }}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(form.nomExposition, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(form.dateHeureDebutExposition, "Date Début", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(form.dateHeureDebutExposition) }}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(form.dateHeureDebutExposition, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(form.dateHeureFinExpositon, "Date Fin", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(form.dateHeureFinExpositon) }}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(form.dateHeureFinExpositon, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(form.nombreVisiteExposition, "Nombres visites", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(form.nombreVisiteExposition) }}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(form.nombreVisiteExposition, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="champs" class="col-md-5 col-sm-10 col-xs-10">
+                    <div class="form-group">
+                        <div class="form-group">
+                        <div class="col-md-2 col-sm-2 col-xs-2 labeldes"></div>
+                        <div class="col-md-3 col-sm-3 col-xs-10 champsdes"></div>
+                        <div class="col-md-1 col-sm-1 col-xs-1 deplace"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                    <input type="submit" value="Enregistrer" />
+                    <a href="{{ path('exposition_index') }}">Back to the list</a>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts 'js/jquery.datetimepicker.full.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.datetimepicker.setLocale('fr');
+            $('.calendar').datetimepicker({
+                dayOfWeekStart : 1,
+                lang:'fr',
+                format:'d/m/Y H:i',
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+            var $container = $('div#exposition_textexpositions');
+
+            //On ajoute un lien pour ajouter un nouveau textexposition
+            var $addLink =$('<a href="#" id="add_textexposition" class="btn btn-default">Ajouter un texte</a>');
+            $container.append($addLink);
+
+            //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+            $addLink.click(function(e) {
+                addTextExposition($container);
+                e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                return false;
+            });
+
+            //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+            var index = $container.find(':input').length
+
+            //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+            if (index==0) {
+                addTextExposition($container);
+            } else {
+                //Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+                $container.children('div').each(function () {
+                    addDeleteLink($(this));
+                });
+            }
+
+            //La function qui ajoute un formulaire textexposition
+            function addTextExposition($Container) {
+                // Dans le contenu de l'attribut "Data-prototype", on remplace
+
+                // le texte "__name__label__" qu'il contient par le label du champ
+
+                // le texte "__name__" qu'il contient par le numro du champ
+                var $prototype = $($container.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index+1)).replace(/__name__/g, index));
+
+                //on ajoute au prototype un lien pour pouvoir supprimer le texte
+                addDeleteLink($prototype);
+
+                //on ajoute le prototype modifié à la fin de la balise <div>
+                $container.append($prototype);
+
+                //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                index++;
+            }
+            //la fonction qui ajoute un lien de suppression d'un text
+            function addDeleteLink($prototype) {
+                //création du lien 
+                $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+                //Ajout du lien
+                $prototype.append($deleteLink);
+
+                //Ajout du listener sur le clic du lien
+                $deleteLink.click(function(e) {
+                    $prototype.remove();
+                    e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                    return false;
+                });
+;            }
+        });
+    </script>
+{% endblock %}

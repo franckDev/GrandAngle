@@ -1,0 +1,27 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div id="reset" class="container">
+	<div class="col-md-8 col-md-offset-2">
+		{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': {'id': 'formRequest'} }) }}
+		{% image 'image/logo2.png' %}
+            <img class="logo-right" title="Grand Angle" src="{{ asset_url }}" width="140" height="90"/>
+        {% endimage %}
+		<h1>Réinitialisation</h1>
+		<div class="form-group">
+            <label class="col-md-5 inline-label">Nouveau mot de passe</label>
+            <div class="col-md-7">
+               {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control ajust'}}) }}
+             </div>
+        </div>
+		<div class="form-group">
+            <label class="col-md-5 inline-label">Vérification</label>
+            <div class="col-md-7">
+               {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control ajust'}}) }}
+            </div>
+        </div>
+        <div class="col-md-2 col-md-offset-5">
+            <input id="btnReset" class="btn btn-default" type="submit" value="{{ 'resetting.reset.submit'|trans }}" />
+        </div>
+    {{ form_end(form) }}
+	</div>
+</div>

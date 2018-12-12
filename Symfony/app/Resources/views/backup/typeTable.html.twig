@@ -1,0 +1,44 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Liste Type
+    </div>
+    <div class="container">
+        {# Affichage de la liste type #}
+        <div class="row">
+            <div class="col-md-10">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if types is defined %}
+                        {% for type in types %}
+                        <tr id="list">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a id="searchindex" title="Voir détail" class="glyphicon glyphicon-search" href=""></a>
+                                <a id="editindex" title="Modifier" class="glyphicon glyphicon-pencil" href=""></a>
+                                <a id="delindex" title="Supprimer" name="" class="glyphicon glyphicon-trash" href=""></a> 
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

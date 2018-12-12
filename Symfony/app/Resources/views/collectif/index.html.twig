@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Collectif list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecreation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for collectif in collectifs %}
+            <tr>
+                <td><a href="{{ path('collectif_show', { 'id': collectif.id }) }}">{{ collectif.id }}</a></td>
+                <td>{% if collectif.datecreation %}{{ collectif.datecreation|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('collectif_show', { 'id': collectif.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('collectif_edit', { 'id': collectif.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('collectif_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

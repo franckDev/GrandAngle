@@ -1,0 +1,97 @@
+{# extends 'base.html.twig' #}
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+ <div class="panel panel-default">
+        <div class="panel-heading show">
+            Fiche Exposition
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <a id="showexporet" href="{{ path('exposition_index') }}">Retour</a>
+                    <a id="showexpoedit" href="{{ path('exposition_edit', { 'id': exposition.id }) }}">Modifier</a>
+                    <img id="imgExpo" class="img-responsive" src="{{ app.request.basepath }}/upload/{{ exposition.Fichier}}" alt="Image Exposition" />
+                </div>
+                <div class="col-md-5">
+                    <table class="table showexpo">
+                        <tbody>
+                            <tr>
+                                <th>Nom exposition</th>
+                                <td>{{ exposition.nomExposition }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date heure debut</th>
+                                <td>{% if exposition.dateHeureDebutExposition %}{{ exposition.dateHeureDebutExposition|date('Y-m-d H:i:s') }}{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th>Date heure fin</th>
+                                <td>{% if exposition.dateHeureFinExposition %}{{ exposition.dateHeureFinExposition|date('Y-m-d H:i:s') }}{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th>Nombre visite</th>
+                                <td>{{ exposition.nombreVisiteExposition }}</td>
+                            </tr>
+                            <tr>
+                                <th>Evenement</th>
+                                <td>{{ exposition.evenement }}</td>
+                            </tr>
+                            <tr>
+                                <th>Organisateur</th>
+                                <td>{{ exposition.organisateur.nom }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Description</th>
+                                <th>Langue</th>
+                            </tr>
+                        {% for textexposition in exposition.textexpositions %}
+                            <tr>
+                                <td>{{ textexposition.description }}</td>
+                                <td>{{ textexposition.langue }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Thèmes</th>
+                            </tr>
+                        {% for theme in exposition.themes %}
+                            <tr>
+                                <td>{{ theme.libelle }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Oeuvre</th>
+                                <th>Position</th>
+                                <th>Emplacement</th>
+                            </tr>
+                        {% for emplacement in exposition.emplacements %}
+                            <tr>
+                                <td>{{ emplacement.oeuvre.nom }}</td>
+                                <td>{{ emplacement.position }}</td>
+                                <td>{{ emplacement.etat }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-heading show">
+            Fiche utilisateur
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <a id="showutilret" href="{{ path('utilisateur_index') }}">Retour</a>
+                    <a id="showutiledit" href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}">Modifier</a>
+                </div>
+                <div class="col-md-5">
+                    <table class="table sho">
+                        <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <td>{{ utilisateur.firstname }}</td>
+                            </tr>
+                            <tr>
+                                <th>Prénom</th>
+                                <td>{{ utilisateur.lastname }}</td>
+                            </tr>
+                            <tr>
+                                <th>Identifiant</th>
+                                <td>{{ utilisateur.username }}</td>
+                            </tr>
+                            <tr>
+                                <th>E-mail</th>
+                                <td>{{ utilisateur.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Role</th>
+                                <td>
+                                    {% if utilisateur.role == "ADMIN" %}
+                                        Administrateur
+                                    {% elseif utilisateur.role == "USER" %}
+                                        Utilisateur
+                                    {% else %}
+                                        Indéfini
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Dernière connexion</th>
+                                <td>{{ utilisateur.lastlogin | date("d/m/Y H:m:s", "Europe/Paris") }}</td>
+                            </tr>
+                            <tr>
+                                <th>Etat du compte</th>
+                                <td>
+                                    {% if utilisateur.locked == 1 %}
+                                        Compte bloqué
+                                        <span class="glyphicon glyphicon-lock" id="debshow"></span>
+                                    {% else %}
+                                        Compte actif
+                                        <span class="glyphicon glyphicon-ok" id="actshow"></span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Libellé</th>
+                                <th>Numéro</th>
+                            </tr>
+                        {% for telephone in utilisateur.telephones %}
+                            <tr>
+                                <td>{{ telephone.libelle }}</td>
+                                <td>{{ telephone.numero }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                </div>      
+            </div>
+        </div>
+    </div>
+{% endblock %}

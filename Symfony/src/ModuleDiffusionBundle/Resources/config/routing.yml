@@ -1,0 +1,32 @@
+module_diffusion_homepage:
+    path:     /
+    defaults: { _controller: "ModuleDiffusionBundle:Accueil:index" }
+
+affiche_calendar:
+    path:    /calendrier
+    defaults: { _controller: "ModuleDiffusionBundle:Default:affiche" }
+    methods: [POST, GET]
+
+module_diffusion_agenda:
+    path:     /agenda
+    defaults: { _controller: "ModuleDiffusionBundle:Accueil:agenda" }
+
+module_diffusion_oeuvre:
+    path:     /oeuvre
+    defaults: { _controller: "ModuleDiffusionBundle:Accueil:oeuvre" }
+
+module_diffusion_listexpo:
+    path:     /list
+    defaults: { _controller: "ModuleDiffusionBundle:Accueil:listexpo" }
+    methods: [POST, GET]
+
+module_diffusion_showoeuvre:
+    path:     /oeuvre/{id}/{idE}/detail
+    defaults: { _controller: "ModuleDiffusionBundle:Accueil:detail" }
+    methods: [POST, GET]
+
+module_diffusion_majvuo:
+    path:     /maj_vu_oeuvre
+    defaults: { _controller: "ModuleDiffusionBundle:Accueil:majvuo" }
+    methods: [POST, GET]
+

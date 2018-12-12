@@ -1,0 +1,48 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    <h1>Artiste</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ artiste.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ artiste.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ artiste.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Nationalite</th>
+                <td>{{ artiste.nationalite }}</td>
+            </tr>
+            <tr>
+                <th>Datenaissance</th>
+                <td>{% if artiste.dateNaissance %}{{ artiste.dateNaissance|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datemort</th>
+                <td>{% if artiste.dateMort %}{{ artiste.dateMort|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('artiste_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('artiste_edit', { 'id': artiste.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

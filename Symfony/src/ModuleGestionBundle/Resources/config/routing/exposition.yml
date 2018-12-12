@@ -1,0 +1,29 @@
+exposition_index:
+    path:     /
+    defaults: { _controller: "ModuleGestionBundle:Exposition:index" }
+    methods:  GET
+
+exposition_show:
+    path:     /{id}/show
+    defaults: { _controller: "ModuleGestionBundle:Exposition:show" }
+    methods:  GET
+
+exposition_new:
+    path:     /new
+    defaults: { _controller: "ModuleGestionBundle:Exposition:new" }
+    methods:  [GET, POST]
+
+exposition_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ModuleGestionBundle:Exposition:edit" }
+    methods:  [GET, POST]
+
+exposition_delete:
+    path:     /delete
+    defaults: { _controller: "ModuleGestionBundle:Exposition:delete" }
+    methods:  [GET, POST]
+
+exposition_print:
+    path:     /{id}/print
+    defaults: { _controller: "ModuleGestionBundle:Exposition:print" }
+    methods:  [GET, POST]

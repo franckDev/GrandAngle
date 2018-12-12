@@ -1,0 +1,65 @@
+body{
+	background-color:#edeae2;
+}
+
+/*Menu horizontal*/
+span.menuimg{
+	margin-right: 15px;
+}
+
+.barre{
+	display: inline;
+	float: left;
+	padding-left: 0px;
+	width: 5px;
+	height: 47px;
+	background-color:white;
+}
+
+.calendar{
+	margin: auto;
+	margin-top: 50px;
+}
+
+/*Champs text de l'exposition*/
+p#desc{
+	font-size: 1.5em;
+    background-color: burlywood;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/*Bandeau vertical*/
+div#bandeau-vertical{
+    height: 85px;
+    background-color: aliceblue;
+    border-right: 100em solid;
+    opacity: 0.1;
+}
+
+/*Calendar*/
+div#calendar-holder {
+    margin-top: 60px;
+}
+
+/*oeuvre*/
+#selecexpo{
+	margin-top: 75px;
+}
+
+.margepaver{
+	margin-top: 15px;
+}
+
+/*detail oeuvre */ 
+.margehaut{
+	margin-top: 75px;
+}
+
+.blocheigth{
+	height: 230px;
+}
+
+.margetop{
+	margin-top: 15px;
+}

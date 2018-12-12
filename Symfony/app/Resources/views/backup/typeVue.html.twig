@@ -1,0 +1,63 @@
+<div class="panel panel-default">
+    <div class="panel-heading show">
+        Fiche exemple
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <a id="showutilret" href="">Retour</a>
+                <a id="showutiledit" href="">Modifier</a>
+            </div>
+            <div class="col-md-5">
+                <table class="table sho">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    {% for exemple in exemple.entity %}
+                        <tr>
+                            <td>{{ exemple.champs1 }}</td>
+                            <td>{{ exemple.champs2 }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>      
+        </div>
+    </div>
+</div>

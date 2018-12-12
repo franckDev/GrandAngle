@@ -1,0 +1,63 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-heading show">
+            Détail de l'oeuvre
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <a id="showoeuvret" href="{{path('oeuvre_index')}}">Retour</a>
+                    <a id="showoeuvedit" href="">Modifier</a>
+                </div>
+                <div class="col-md-5">
+                    <table class="table shooeuv">
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ oeuvre.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nom</th>
+                                <td>{{ oeuvre.nom }}</td>
+                            </tr>
+                            <tr>
+                                <th>Edition du flashCode</th>
+                                <td>
+                                    {% if oeuvre.genFlashcode %}
+                                        Oui
+                                    {% else %}
+                                        Non
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Image du flashCode</th>
+                                <td>
+                                    {% if oeuvre.imgFlashcode is defined and oeuvre.imgFlashcode is not null %}
+                                    <img src="{{ qrcode_url(oeuvre.imgFlashcode, { writer: 'png' }) }}" alt="FlashCode">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Etat</th>
+                                <td>{{ oeuvre.etat }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nombre de visite</th>
+                                <td>
+                                    {% if oeuvre.nombreVisite is empty %}
+                                        Non Défini
+                                    {% else %}
+                                        {{ oeuvre.nombreVisite }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

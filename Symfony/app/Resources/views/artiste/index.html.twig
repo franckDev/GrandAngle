@@ -1,0 +1,47 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    <h1>Artiste list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Nationalite</th>
+                <th>Datenaissance</th>
+                <th>Datemort</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for artiste in artistes %}
+            <tr>
+                <td><a href="{{ path('artiste_show', { 'id': artiste.id }) }}">{{ artiste.id }}</a></td>
+                <td>{{ artiste.nom }}</td>
+                <td>{{ artiste.prenom }}</td>
+                <td>{{ artiste.nationalite }}</td>
+                <td>{% if artiste.dateNaissance %}{{ artiste.dateNaissance|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if artiste.dateMort %}{{ artiste.dateMort|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('artiste_show', { 'id': artiste.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('artiste_edit', { 'id': artiste.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('artiste_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

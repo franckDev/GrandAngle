@@ -1,0 +1,1058 @@
+body {
+	background-color: #333;
+}
+
+#contentlay {
+	width:89em;
+}
+
+select {
+	cursor:pointer;
+}
+
+/***************style du cadre de navbar*******************/
+.navbar {
+	margin-top: 20px;
+	height: 100%;
+}
+
+/***************style Bouton de menu*******************/
+.nav-pills li a{
+	margin-top: 20px;
+}
+
+.nav-pills li{
+	text-align: center;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+ul.dropdown-menu li  {
+	text-align: center;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	line-height: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+ul.dropdown-menu li a {
+	padding: 15px;
+	margin: 0px;
+	border-radius: 5px;
+}
+
+#droit{
+	/*display: none;*/
+}
+
+/***************Bouton de menu*******************/
+#acce {
+	background-color: #777;
+	color : #E3E3E3;
+}
+
+#acce:hover {
+	background-color: #373737;
+	color : white;
+}
+
+#expo {
+	background-color: #337ab7;
+	color : #E3E3E3;
+	margin-bottom: 20px;
+}
+
+#expo:hover {
+	background-color: #214F77;
+	color : white;
+}
+
+#statexpo {
+	background-color: #fff;
+	background-image: none;
+	color : #000;
+}
+
+#statexpo:hover {
+	background-color: #f0ad4e;
+	background-image: none;
+	color : white;
+}
+
+#statoeuvre {
+	background-color: #fff;
+	background-image: none;
+	color : #000;
+}
+
+#statoeuvre:hover{
+	background-color: #f0ad4e;
+	background-image: none;
+	color : white;
+}
+
+#oeuv {
+	background-color: #5cb85c;
+	color : #E3E3E3;
+}
+
+#oeuv:hover {
+	background-color: #3C783C;
+	color : white;
+}
+
+#stat {
+	background-color: #f0ad4e;
+	color : #E3E3E3;
+} 
+
+#stat:hover {
+	background-color: #B07F39;
+	color : white;
+} 
+
+#util {
+	background-color: #5bc0de;
+	color : #E3E3E3;
+} 
+
+#util:hover {
+	background-color: #41899E;
+	color : white;
+} 
+
+#deco {
+	background-color: #d9534f;
+	color : #E3E3E3;
+}
+
+#deco:hover {
+	background-color: #993B38;
+	color : white;
+}
+
+/***************Style Gestion utilisateur*******************/
+
+
+/**************Style Tableau******************/
+
+#btn_ul {
+	margin :0;
+	padding: 0;
+}
+#btn_li {
+	list-style-type: none;
+}
+
+/****Index Utilisateur*****/
+
+#searchindex {
+	background-color: #C4D4D9;  
+	border-radius:4px;
+	padding: 8px 8px;
+}
+
+#searchindex:hover {
+	text-decoration: none;
+	color: black;
+}
+
+#editindex {
+	background-color: #B4D2AE;  
+	border-radius:4px;
+	padding: 8px 8px;
+}
+
+#editindex:hover {
+	text-decoration: none;
+	color: black;
+}
+
+#delindex {
+	background-color: red;
+	border-radius:4px;
+	padding: 8px 8px;
+}
+
+#printindex {
+	background-color: #FE9A2E;
+	border-radius:4px;
+	padding: 8px 8px;
+}
+
+#printindex:hover {
+	text-decoration: none;
+	color: black;
+}
+
+#formdel {
+	position: relative;
+	bottom: 29px;
+	left: 69px;
+	width: 30px;
+	height:30px;
+}
+
+#delindex:hover {
+	text-decoration: none;
+	color: black;
+}
+
+#scrollind {
+	height: 700px;
+	overflow-y: scroll;
+}
+
+/*Fond du pop-up de suppression*/
+#back {
+	display:none;
+	position:absolute;
+	background-color: rgba(0,0,0, 0.5);
+	width: 100%;
+	height: 100%;
+	z-index:1000;
+}
+/*Fenêtre de la pop-up*/
+#modal-form {
+	display:none;
+	position:absolute;
+	top: 36.5%;
+	left: 37.5%;
+	background-color: #2E6170;
+	border: 1px solid rgba(184, 208, 192, 0.74);
+	color:white;
+	border-radius: 25%;
+	padding: 25px;
+	width: 25%;
+	height: 250px;
+	z-index:1200;
+}
+
+.head-form {
+	padding: 15px;
+	font-size: 1.1em;
+}
+
+.content-form {
+	margin-top: 25%;
+	margin-left: 25%;
+}
+
+#nom {
+	position: relative;
+	bottom: 40px;
+	color:red;
+	font-weight: bold;
+}
+
+
+/*****New Utilisateur******/
+#newutilval {
+	background-color: #5bc0de;
+	color : #E3E3E3;
+	margin: 20px 20px;
+	border-radius:4px;
+	padding: 6px 15px;
+}
+
+#newutilval:hover {
+	background-color: #41899E;
+	color : white;
+}
+
+#newutilret {
+	background-color: #777;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#newutilret:hover {
+	background-color: #373737;
+	color : white;
+	text-decoration: none;
+}
+
+.form-control.ajust {
+	margin-bottom:10px;	
+}
+
+.control-label.ajust {
+	line-height: 35px;
+}
+
+.control-label.ajust.ajust2{
+	line-height: 72px;
+}
+
+.control-label.ajust.ajust3{
+	line-height: 50px;
+}
+
+.form-control.tel {
+	margin-top: 15px;
+}
+
+.control-label.tel {
+	line-height: 60px;
+}
+
+.editlocknew {
+	height: 34px;
+	width: 34px;
+}
+
+.blocdebnew {
+	margin-top: -10px;
+	padding: 15px;
+	width: 50%;
+	color: #D9534F;
+}
+
+#debloc {
+	display:none;
+}
+
+.upnew {
+	margin-top: -23px;
+}
+
+#newlien {
+	background-color: #48B865;
+	font-size: 16px;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 10px 15px;
+	margin-bottom: 10px;
+	margin-right: 1em;
+}
+
+#newlien:hover {
+	background-color: #6AC682;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#newlien2 {
+	background-color: #48B865;
+	font-size: 16px;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 10px 15px;
+	margin-bottom: 10px;
+	margin-right: 1em;
+}
+
+#newlien2:hover {
+	background-color: #6AC682;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.newlienred {
+	background-color: #BD3329;
+	font-size: 16px;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 9px 9px;
+	margin-bottom: 16px;
+}
+
+.newlienred:hover {
+	background-color: #BE524A;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#formUser {
+	width: 100%;
+}
+
+/*****Show Utilisateur*****/
+
+#showutilret {
+	background-color: #777;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#showutilret:hover {
+	background-color: #373737;
+	color : white;
+	text-decoration: none;
+}
+
+#showutiledit {
+	background-color: #5BC0DE;
+	color : white;  
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#showutiledit:hover {
+	background-color: #41899E;
+	color : #E3E3E3;
+	text-decoration: none;
+}
+
+#debshow {
+	padding-left: 10px;
+	margin-left: 20px;
+	color: red;
+}
+
+#actshow {
+	padding-left: 10px;
+	margin-left: 20px;
+	color: blue;
+}
+
+.sho tr:nth-child(odd) {
+	background-color: #5BC0DE;
+}
+
+.sho tr:nth-child(even) {
+	background-color: #D2E1E2;
+}
+
+.panel-heading.show {
+	margin-bottom: 25px;
+}
+
+/*****Edit Utilisateur*****/
+
+.editlock {
+	position:absolute;
+	top: 23.1em;
+	right: 56.5em;
+	height: 34px;
+	width: 34px;
+}
+
+.blocdeb {
+	position: absolute;
+	top: 24em;
+	right: 60.2em;
+	width: 46%;
+	color: #D9534F;
+}
+
+
+.labelLib label,.labelnum label, .labeldes label, .labellang label, .labeloeuvre label, .labelpos label, .labeletat label {
+	line-height: 33px;
+	margin-bottom: 16px;
+}
+
+
+.champslib input,.champsnum input, .champsdes input, .champslang select, .champsoeuvre select, .champspos select, .champsetat select {
+	width:100%;
+	padding: 6px 12px;
+	border:1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	margin-bottom: 16px;
+}
+
+.labeletat label {
+    width: 40px;
+}
+
+.labelpos {
+	padding-left: 0px;
+}
+
+#oeuvre {
+	padding-left: 0px;
+}
+
+.oeuvre2{
+	padding-left: 30px !important;
+}
+
+.champslang select, .champsoeuvre select{
+	/*width: 125px;*/
+}
+
+.champsoeuvre, .champspos{
+	height: 50px;
+}
+
+.champspos select{
+	width: 75px;
+}
+
+.editlienred {
+	background-color: #BD3329;
+	font-size: 16px;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 9px 9px;
+	margin-bottom: 16px;
+}
+
+.editlienred:hover {
+	background-color: #BE524A;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.red {
+	background-color: #BD3329;
+	font-size: 16px;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 9px 9px;
+	margin-bottom: 16px;
+}
+
+.red:hover{
+	background-color: #BE524A;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.vert {
+	background-color: #5cb85c;
+	font-size: 16px;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 9px 9px;
+	margin-bottom: 16px;
+}
+
+.vert:hover{
+	background-color: #5cb85c;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.error ul li {
+	list-style-type: none; 
+	font-size: 0.9em;
+	color: red;
+}
+
+/***************Style Gestion exposition*******************/
+
+/****Index exposition*****/
+
+.table {
+	background-color: white;
+}
+
+
+/*****New exposition******/
+
+#containerExpo {
+	padding-top: 10px;
+}
+
+textarea {
+	resize : none;
+}
+
+#newexpo{
+	margin-top: 25px;
+}
+
+#newsub{
+	background-color: #337ab7;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 6px 15px;
+	margin: 10px; 
+}
+
+#newsub:hover{
+	background-color: #214F77;
+	color : black;
+}
+
+
+#newret{
+	background-color: #777;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#newret:hover{
+	background-color: #171616;
+	color : white;
+	text-decoration: none;
+}
+
+#exposition_evenement_0{
+	margin-right: 5px;
+}
+#exposition_evenement_1{
+	margin-left: 15px;
+	margin-right: 5px;
+}
+#exposition_evenement_2{
+	margin-left: 15px;
+	margin-right: 5px;
+}
+#exposition_evenement_3{
+	margin-left: 15px;
+	margin-right: 5px;
+}
+
+.ajustSel1 {
+	width:9%;
+	line-height: 37px;
+}
+
+.ajustSel2 {
+	line-height: 37px;
+}
+
+.ajustSel2 select {
+	width: 100%;
+}
+
+/*****Show exposition*****/
+
+#showexporet{
+	background-color: #777;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+
+#showexporet:hover{
+	text-decoration: none;
+	color: #373737;
+}
+
+#showexpoedit{
+	background-color: #337ab7;
+	color : white;  
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#showexpoedit:hover{
+	text-decoration: none;
+	color: #214F77;
+}
+
+.showexpo tr:nth-child(odd) {
+	background-color: rgba(91, 150, 201, 0.88);
+}
+
+.showexpo tr:nth-child(even) {
+	background-color: rgba(51, 122, 183, 0.46);
+}
+
+#imgExpo {
+    margin-top: 20px;
+    height: 207px;
+    width: 19em;
+}
+
+table.table.showexpo {
+    margin-top: 40px;
+}
+
+/*****Edit exposition*****/
+
+#formedit {
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+#formedit2 {
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.labeloeuvre2 label, .labelpos2 label, .labeletat label {
+	line-height: 33px;
+	margin-bottom: 15px;
+}
+
+
+#labeldescrip{
+	padding-left: 0px;
+}
+
+.red3 {
+	background-color: #BD3329;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 9px 9px;
+	margin-bottom: 0.859em;
+}
+
+.red3:hover{
+	background-color: #BE524A;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#oeuvreexpo {
+	margin-left: -30px;
+}
+
+/***************Style Gestion oeuvre*******************/
+
+/****Index Oeuvre*****/
+#newoeuv {
+	background-color: #5CB85C;
+	color : #E3E3E3;
+	margin-top: 0;
+}
+#newoeuv:hover {
+	background-color: #41899E;
+	color : white;
+}
+#scrolloeuv {
+	height: 650px;
+	overflow-y: scroll;
+}
+div#imgoeuv {
+	margin-bottom: 20px;
+}
+#choiceexpo {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+td.buttonTab a {
+	margin-right: 5px;
+}
+
+/*****New Oeuvre******/
+
+#contnewOeuv {
+	padding: 20px;
+}
+
+#newart {
+	color:#5CB85C;
+	font-weight:bolder;
+}
+
+.fixlabel {
+	line-height: 5em;
+}
+
+.fixlang {
+	line-height: 5em;
+}
+
+#placenew {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#choiceart {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#oeuvre_etat label {
+	display: block;
+}
+
+#oeuvre_etat input {
+    float: left;
+    margin-right: 15px;
+}
+
+#qrcindex {
+    width: 30px;
+    height: 30px;
+    padding: 8px 8px;
+    border-radius: 4px;
+    color: #337ab7;
+    background-color: rgba(8, 8, 8, 0.61)
+}
+#qrcindex:hover {
+    text-decoration:none;
+    color: #080808;
+    background-color: rgba(8, 8, 8, 0.61)
+}
+
+/*Artiste*/
+#newartval {
+	background-color: #5CB85C;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 6px 15px;
+}
+
+#newartval:hover {
+	background-color: #3A793A;
+	color : black;
+}
+
+#newartret {
+	background-color: #777;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#newartret:hover {
+	background-color: #171616;
+	color : white;
+	text-decoration: none;
+}
+
+#formartnew {
+	padding: 20px;
+}
+
+#newoeuvfond {
+	margin-top: 25px;
+}
+
+.multi {
+	line-height:2.8em !important;
+}
+
+.red2 {
+	background-color: #BD3329;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 9px 9px;
+	margin-bottom: 12px;
+}
+
+.red2:hover{
+	background-color: #BE524A;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.vert2 {
+	background-color: #5cb85c;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 9px 9px;
+	margin-bottom: 16px;
+}
+
+.vert2:hover{
+	background-color: #5cb85c;
+	color : white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#formTableau {
+	display:none;
+}
+#formStatut {
+	display:none;
+}
+#formMulti {
+	display:none;
+}
+
+.uploadControl {
+	width: 100%;
+    height: 34px;
+    line-height: 1.42857143;
+}
+
+/*****Show Oeuvre*****/
+
+#showoeuvedit {
+	background-color: #5CB85C;
+	color : #E3E3E3;  
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#showoeuvedit:hover {
+	background-color: #3C783C;
+	color : white;
+	text-decoration: none;
+}
+
+#showoeuvret {
+	background-color: #777;
+	color : #E3E3E3;
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#showoeuvret:hover {
+	background-color: #373737;
+	color : white;
+	text-decoration: none;
+}
+
+#shownewoeuv {
+	background-color: #d2e1e2;
+	color : #777777;
+	border-radius:4px;
+	padding: 10px 15px;
+}
+
+#shownewoeuv:hover {
+	background-color: #777777;
+	color : #d2e1e2;
+	text-decoration: none;
+}
+
+.shooeuv tr:nth-child(odd) {
+	background-color: rgba(92, 184, 92, 0.8);
+}
+
+.shooeuv tr:nth-child(even) {
+	background-color: rgb(210, 226, 213);
+}
+
+#imgShowOeuv {
+	height: 207px;
+    width: 30em;
+    margin-bottom: 20px;
+}
+
+
+/*****Edit Oeuvre*****/
+
+
+/***************Style Gestion Statistique*******************/
+
+/****Index Statistique*****/
+
+/*****New Statistique******/
+
+/*****Show Statistique*****/
+
+/*****Edit Statistique*****/
+
+
+
+/****************************************************************************/
+/**************************Responsive Ajustement****************************/
+/***************************************************************************/
+
+/*Smartphones (portrait and landscape)*/
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+/* Styles pour cette Media Queries */
+}
+
+/*Smartphones (landscape)*/
+@media only screen and (min-width : 321px) {
+/* Styles pour cette Media Queries */
+	#champs {
+		padding-right: 0px;
+		padding-left: 0px;
+	}
+}
+
+/*iPads (portrait and landscape)*/
+@media only screen and (max-width : 320px) {
+/* Styles pour cette Media Queries */
+	body {
+		font-size: 1.3em;
+	}
+}
+
+/*iPads (landscape)*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/* Styles pour cette Media Queries */
+	
+	div#contentlay {
+		font-size: 0.9em;
+    	width: 100%;
+	}
+	.nav-pills li {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	.nav>li>a { 
+	  padding: 10px 11px;
+	}
+	#logoAc {
+		width:10em;
+	}
+	.ajustSel1 {
+	    width: 12%;
+	}
+	.control-label.ajust.ajust2 {
+	    line-height: 60px;
+	}
+	.labellang {
+	    margin-left: 25px;
+	}
+	.labellang label {
+	{
+    	line-height: 32px;  
+	}
+	.red2 {
+		margin-bottom: 14px
+	}
+	textarea#oeuvre_texteoeuvres_4_description {
+    	margin-top: 10px;
+	}
+}
+
+/*iPads (portrait)*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+/* Styles pour cette Media Queries */
+}
+
+/*Desktops and laptops*/
+@media only screen and (min-width : 1224px){
+/* Styles pour cette Media Queries */
+}
+
+/*Large screens*/
+@media only screen and (min-width : 1824px) {
+/* Styles pour cette Media Queries */
+}
+
+/*iPhone 4*/
+@media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5){
+/* Styles pour cette Media Queries */
+}
+
+/*iPhone 3G*/
+@media screen and (device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1){
+/* Styles pour cette Media Queries */
+}
+
+/*iPhone 5*/
+@media screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2){
+/* Styles pour cette Media Queries */
+}
+
+/*iPad Mini*/
+@media screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1){
+/* Styles pour cette Media Queries */
+}
+
+/*iPad 2 Landscape*/
+@media (max-device-width: 1024px) and (orientation: landscape) {
+/* Styles pour cette Media Queries */
+}
+
+/*iPad 2 Portrait*/
+@media (max-device-width: 768px) and (orientation: portrait) {
+/* Styles pour cette Media Queries */
+}

@@ -1,0 +1,147 @@
+{% extends "::ModuleDiffusion/layout/layout.html.twig"%}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+<div class="col-md-8 col-md-offset-2 col-xs-12">
+	<select id="selecexpo" class="form-control">
+	 	<option value="choix">Choisissez une exposition</option>
+	  	{% for exposition in expositions %}
+			<option value="{{exposition.id}}">{{exposition.nomExposition}}</option>
+		{% endfor %}
+	</select>
+	<input id="input" type="hidden" value=""/>
+	<div class="row">
+		<div id="div" name="btn_input" class="row text-center">
+			{% for oeuvre in oeuvres %}
+				<div class="col-md-4 margepaver">
+				    <div class="thumbnail">
+						<img class="img" src="{{ app.request.basepath }}/upload/{{ oeuvre.fichier}}" alt="Image Oeuvre" />
+				       	<p><strong>{{ oeuvre.nom }}</strong></p>
+				       	<a class="btn btn-primary btn_path" href="{{ path('module_diffusion_showoeuvre', { 'id': oeuvre.id, 'idE': idExposition}) }}">Voir détail</a>
+				    </div>
+				  </div>
+			{% endfor %}
+		</div>
+	</div>
+</divW>
+{% endblock body %}
+
+{% block javascripts %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		if({{oeuvres.0.idEx}} != undefined)
+		{
+			var idex = {{oeuvres.0.idEx}};
+			if(idex != "")
+			{
+				$('#selecexpo option[value='+idex+']').prop('selected', true);
+				$('#input').attr('value',idex);
+			}
+
+			$('#selecexpo').change(function(){
+				var id = $(this).val();
+				$('#input').attr('value',id);
+				if (id != 'choix') 
+				{
+					div = $('#div');
+					$('option[value="choix"]').html("Recharger l'exposition en cours");
+					contenu = document.createElement('div'); 
+					ajaxCall(id);
+					function ajaxCall(id){
+	                    $.ajax(
+	                    {
+	                        url: "{{ path('module_diffusion_listexpo') }}", // On renseigne l'url TWIG
+	                        method: "post",
+	                        data: {id: id} // On passe l'id dans la requête
+	                    }).done(function(msg){
+	                    	console.log(msg);
+	                        refreshList(msg);
+	                    });
+	                }
+				}else{
+	                $.ajax({
+	                    url: "{{ path('module_diffusion_oeuvre') }}", // On renseigne l'url TWIG
+	                    method: "post",
+	                }).done(function(msg){
+	                    refreshList2(msg);
+	                });
+	                scroll();
+	        	}
+			});
+		}
+	});
+	function refreshList(msg)
+	{
+		div[0].innerHTML = "";
+		$.each(JSON.parse(msg['data']), function(i, expo) 
+		{
+			div1 = document.createElement('div');
+			div1.setAttribute('class', 'col-md-3 margepaver'); 
+			div2 = document.createElement('div');
+			div2.setAttribute('class', 'thumbnail');
+			img = document.createElement('img');
+			img.setAttribute('class', 'img');
+			p = document.createElement('p');
+			strong = document.createElement('strong');
+			a = document.createElement('a');
+			a.setAttribute('class', 'btn btn-primary');
+
+			p.appendChild(strong);
+			div2.appendChild(img);
+			div2.appendChild(p);
+			div2.appendChild(a);
+			div1.appendChild(div2);
+
+			fichier = expo.fichier;
+			nom = document.createTextNode(expo.nomO);
+			texte = document.createTextNode('Voir le détail');
+			id = document.createTextNode(expo.idO);
+			img.src = '{{ app.request.basepath }}/upload/'+fichier;
+			a.appendChild(texte);
+
+			strong.appendChild(nom);
+
+			contenu.appendChild(div1);
+			div[0].appendChild(contenu);
+			contenu = document.createElement('div');
+		});
+	}
+	function refreshList2(msg)
+	{
+		div[0].innerHTML = "";
+		$.each(JSON.parse(msg['data']), function(i, expo) 
+		{
+			div1 = document.createElement('div');
+			div1.setAttribute('class', 'col-md-3 margepaver'); 
+			div2 = document.createElement('div');
+			div2.setAttribute('class', 'thumbnail');
+			img = document.createElement('img');
+			img.setAttribute('class', 'img');
+			p = document.createElement('p');
+			strong = document.createElement('strong');
+			a = document.createElement('a');
+			a.setAttribute('class', 'btn btn-primary');
+
+			p.appendChild(strong);
+			div2.appendChild(img);
+			div2.appendChild(p);
+			div2.appendChild(a);
+			div1.appendChild(div2);
+
+			fichier = expo.fichier;
+			nom = document.createTextNode(expo.nom);
+			texte = document.createTextNode('Voir le détail');
+			id = document.createTextNode(expo.id);
+			img.src = '{{ app.request.basepath }}/upload/'+fichier;
+			a.appendChild(texte);
+
+			strong.appendChild(nom);
+
+			contenu.appendChild(div1);
+			div[0].appendChild(contenu);
+			contenu = document.createElement('div');
+		});
+	}
+</script>
+{% endblock %}

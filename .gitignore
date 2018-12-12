@@ -1,0 +1,6 @@
+/Symfony/var/cache
+/Symfony/var/logs
+/Symfony/web/upload/*.jpg
+/Symfony/web/upload/*.mp4
+/Symfony/web/upload/*.mp3
+/Symfony/vendor/friendsofsymfony

@@ -1,0 +1,406 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    {{ form_start(edit_form) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Modification d'un utilisateur
+        </div>
+        <div class="container">
+            <div id="lienrow" class="row">
+                <div id="new" class="col-md-5">
+                    <div class="form-group">
+
+                        {# Erreurs générales du formulaire #}
+                        {{ form_errors(edit_form) }}
+
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(edit_form.firstname, "Nom", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(edit_form.firstname) }}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(edit_form.firstname, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(edit_form.lastname, "Prénom", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(edit_form.lastname) }}
+                           
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(edit_form.lastname, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(edit_form.role, "Role", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(edit_form.role) }}
+
+                            <div class="col-md-8">
+                                {# Génération du select #}
+                                {{ form_widget(edit_form.role, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(edit_form.email, "Adresse e-mail", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(edit_form.email) }}
+                        
+                            <div class="col-md-8">
+                               {# Génération de l'input #}
+                               {{ form_widget(edit_form.email, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>    
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(edit_form.username, "Identifiant", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(edit_form.username) }}
+                            
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(edit_form.username, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(edit_form.plainPassword.first, "Mot de passe", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(edit_form.plainPassword.first, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(edit_form.plainPassword.second, "Vérification", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(edit_form.plainPassword.second, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group error">
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(edit_form.plainPassword.first) }}
+                        </div>
+                    </div>
+                </div>
+                {% if edit_form.telephones.0 is defined %}        
+                    <script>
+                        $(document).ready(function(){
+
+                            // On ajoute le lien pour ajouter un nouveau téléphone
+                            var $addLink = $('<a id="newlien" type="button" title="Ajouter un numéro" alt="Ajouter un numéro" class="glyphicon glyphicon-earphone"></a>');
+
+                            $('#new').append($addLink);
+
+                            // Nombre de champs téléphone généré
+                            var nbElements = $('#utilisateur_telephones_1').length;
+                        
+                            // On commence le compteur de champs
+                            var index = 0;
+
+                            // Tant que les champs existent on génère les labels et input pour afficher les valeurs
+                            while ($('#utilisateur_telephones_'+index).length > 0) {
+
+                                // On récupère le lien de suppression
+                                var dellink = '<a type="button" name='+index+' title="Supprimer un numéro" alt="Supprimer un numéro" class="glyphicon glyphicon-earphone editlienred"></a>';
+
+                                // On désactive le label de l'indice de collection
+                                $('label.required:contains('+index+')').css('display','none');
+
+                                // On récupère le groupe de champs dans son div
+                                var enfant  = $('#utilisateur_telephones_'+index).children();
+
+                                // On en extrait les balises descendantes
+                                var descendant = enfant.find("*");
+
+                                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                                $('.labelLib').append(descendant[0]);
+                                $('.champslib').append(descendant[1]);
+                                $('.labelnum').append(descendant[2]);
+                                $('.champsnum').append(descendant[3]);
+                                $('.deplace').append(dellink);
+                                // On incremente après chaque disposition de champs
+                               index++;
+                               
+                            }
+                            // Puis on intègre tout ça dans le formulaire
+                            $('#lienrow').append($('#formedit'));
+
+                            // Quand on clique pour supprimer un numéro
+                            $('a.editlienred').click(function(e){
+
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+
+                                // On supprime les champs un à un
+                                // Label Libellé
+                                $('[for="utilisateur_telephones_'+num+'_libelle"]').remove();
+                                // // Champs Libellé
+                                $('[id="utilisateur_telephones_'+num+'_libelle"]').remove();
+                                // // Label Numéro
+                                $('[for="utilisateur_telephones_'+num+'_numero"]').remove();
+                                // // Champs Numéro
+                                $('[id="utilisateur_telephones_'+num+'_numero"]').remove();
+                                // // Lien button delete
+                                $(this).remove();
+
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                            });
+
+                            // On récupère la balise <div> qui contient le prototype
+                            var $container = $('div#utilisateur_telephones');
+
+                            // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+                            $('#newlien').click(function(e){
+                                addTelephone2($container);
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                return false;
+                            });
+
+                            // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+                            var index = $container.find(':input').length;
+
+                            // On ajoute un premier champs automatiquement s'il n'en existe pas
+                            if (index == 0) {
+                                // addTelephone2($container);
+                            }else{
+                                // Pour chaque telephone déjà existant, on ajoute un lien de suppression
+                                $container.children('div').each(function() {
+                                    addDeleteLink2($(this));
+                                });
+                            }
+
+                            // La fonction qui ajoute un formulaire Telephone
+                            function addTelephone2($container) {
+
+                                var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g,'Téléphone n°' + (index+1)).replace(/__name__/g, index+'1'));
+
+                                // On récupère le groupe de champs dans son div
+                                $newprototype = $($prototype);
+
+                                var descendant = $newprototype.find('*');
+
+                                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                                $('.labelLib').append(descendant[3]);
+                                $('.champslib').append(descendant[4]);
+                                $('.labelnum').append(descendant[6]);
+                                $('.champsnum').append(descendant[7]);
+
+                                // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                                addDeleteLink2($('.deplace'));
+            
+                                // Enfin on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                                index++;
+                            }
+
+                            // La fonction qui ajoute un lien de suppression de Telephone
+                            function addDeleteLink2($prototype) {
+                                // Création du lien
+                                $deleteLink2 = $('<a type="button" name="'+index+'1'+'" title="Supprimer un numéro" alt="Supprimer un numéro" class="glyphicon glyphicon-earphone newlienred"></a>');
+
+                                // Ajout du lien
+                                $prototype.append($deleteLink2);
+
+                                // Ajout du listener sur le clic du lien
+                                $deleteLink2.click(function(e){
+
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+
+                                // On supprime les champs un à un
+                                // Label Libellé
+                                $('[for="utilisateur_telephones_'+num+'_libelle"]').remove();
+                                // // Champs Libellé
+                                $('[id="utilisateur_telephones_'+num+'_libelle"]').remove();
+                                // // Label Numéro
+                                $('[for="utilisateur_telephones_'+num+'_numero"]').remove();
+                                // // Champs Numéro
+                                $('[id="utilisateur_telephones_'+num+'_numero"]').remove();
+                                // // Lien button delete
+                                $(this).remove();
+
+                                    e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                    index--;
+                                    return false;
+                                });
+                            }
+                        });
+                    </script>    
+                <div id="formedit" class="col-md-5 col-sm-10 col-xs-10">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-2 col-xs-2 labelLib"></div>
+                            <div class="col-md-3 col-sm-3 col-xs-10 champslib"></div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 labelnum"></div> 
+                            <div class="col-md-4 col-sm-4 col-xs-8 champsnum"></div>
+                            <div class="col-md-1 col-sm-1 col-xs-1 deplace"></div>
+                        </div>
+                    </div>
+                </div>  
+                {% else %}
+                    <script>
+                        $(document).ready(function(){
+
+                            // On récupère la balise <div> qui contient le prototype
+                            var $container = $('div#utilisateur_telephones');
+                            
+                            // On ajoute le lien pour ajouter un nouveau téléphone
+                            var $addLink = $('<a id="newlien" type="button" title="Ajouter un numéro" alt="Ajouter un numéro" class="glyphicon glyphicon-earphone"></a>');
+
+                            $('#new').append($addLink);
+
+                            // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+                            $addLink.click(function(e){
+                                addTelephone($container);
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                return false;
+                            });
+
+                            // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+                            var index = $container.find(':input').length;
+
+                            // On ajoute un premier champs automatiquement s'il n'en existe pas
+                            if (index == 0) {
+                                addTelephone($container);
+                            }else{
+                                // Pour chaque telephone déjà existant, on ajoute un lien de suppression
+                                $container.children('div').each(function() {
+                                    addDeleteLink($(this));
+                                });
+                            }
+
+                            // La fonction qui ajoute un formulaire Telephone
+                            function addTelephone($container) {
+
+                                var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g,'Téléphone n°' + (index+1)).replace(/__name__/g, index));
+
+                                // On récupère le groupe de champs dans son div
+                                $newprototype = $($prototype);
+
+                                var descendant = $newprototype.find('*');
+
+                                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                                $('.labelLib').append(descendant[3]);
+                                $('.champslib').append(descendant[4]);
+                                $('.labelnum').append(descendant[6]);
+                                $('.champsnum').append(descendant[7]);
+
+                                // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                                addDeleteLink($('.deplace'));
+
+                                // Enfin on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                                index++;
+                            }
+
+                            // La fonction qui ajoute un lien de suppression de Telephone
+                            function addDeleteLink($prototype) {
+                                // Création du lien
+                                $deleteLink = $('<a type="button" name="'+index+'" title="Supprimer un numéro" alt="Supprimer un numéro" class="glyphicon glyphicon-earphone newlienred"></a>');
+
+                                // Ajout du lien
+                                $prototype.append($deleteLink);
+
+                                // Ajout du listener sur le clic du lien
+                                $deleteLink.click(function(e){
+
+                                    // On récupère l'index du champs à supprimer
+                                    var num = $(this).attr('name');
+
+                                    // On supprime les champs un à un
+                                    // Label Libellé
+                                    $('[for="utilisateur_telephones_'+num+'_libelle"]').remove();
+                                    // // Champs Libellé
+                                    $('[id="utilisateur_telephones_'+num+'_libelle"]').remove();
+                                    // // Label Numéro
+                                    $('[for="utilisateur_telephones_'+num+'_numero"]').remove();
+                                    // // Champs Numéro
+                                    $('[id="utilisateur_telephones_'+num+'_numero"]').remove();
+                                    // // Lien button delete
+                                    $(this).remove();
+                                    
+                                    e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                    index--;
+                                    return false;
+                                });
+                            }
+                        });
+                    </script>
+                <div id="formedit2" class="col-md-5 col-sm-10 col-xs-10">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-2 col-xs-2 labelLib"></div>
+                            <div class="col-md-3 col-sm-3 col-xs-10 champslib"></div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 labelnum"></div> 
+                            <div class="col-md-4 col-sm-4 col-xs-8 champsnum"></div>
+                            <div class="col-md-1 col-sm-1 col-xs-1 deplace"></div>
+                        </div>
+                    </div>
+                </div>  
+                {% endif %}
+            </div>
+            <div class="row">
+                <div id="tel" class="form-group col-md-10 col-md-offset-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label id="bloc" class="blocdebnew">Bloquer</label>
+                    <label id="debloc" class="blocdebnew">Debloquer</label> 
+                </div>
+                <div class="col-md-2">
+                     {{ form_widget(edit_form.locked, {'attr': {'class': 'editlocknew'}}) }}
+                </div>
+                <div class="col-md-5">
+                    <input id="newutilval" type="submit" value="Valider" />
+                    <a id="newutilret" href="{{ path('utilisateur_index') }}">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(edit_form) }}
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+
+        // Gestion du checked au clic
+        $('.editlocknew').click(function(){
+            if ($( "input:checked" ).val()==1) {
+                $("#debloc").css('display','block');
+                $("#bloc").css('display','none');
+            }else{
+                $("#debloc").css('display','none');
+                $("#bloc").css('display','block');
+            }
+        });
+        // Gestion du checked au chargement
+        if ($( "input:checked" ).val()==1) {
+            $("#debloc").css('display','block');
+            $("#bloc").css('display','none');
+        }else{
+            $("#debloc").css('display','none');
+            $("#bloc").css('display','block');
+        }
+       
+    </script>
+{% endblock %}

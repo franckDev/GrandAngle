@@ -1,0 +1,91 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-heading show">
+            Détail de l'oeuvre
+        </div>
+        <div class="container">
+            <div class="form-group">
+                <a id="showoeuvret" href="{{path('oeuvre_index')}}">Retour</a>
+                <a id="showoeuvedit" href="{{ path('oeuvre_edit', { 'id': oeuvre.id }) }}">Modifier</a>
+                <a id="shownewoeuv" title="Nouvelle oeuvre" href="{{ path('oeuvre_new') }}">Nouvelle</a>            
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table shooeuv">
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ oeuvre.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nom</th>
+                                <td>{{ oeuvre.nom }}</td>
+                            </tr>
+                            <tr>
+                                <th>Edition du flashCode</th>
+                                <td>
+                                    {% if oeuvre.genFlashcode %}
+                                        Oui
+                                    {% else %}
+                                        Non
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Image du flashCode</th>
+                                <td>
+                                    {% if oeuvre.imgFlashcode is defined and oeuvre.imgFlashcode is not null %}
+                                    <a href="{{ qrcode_url(oeuvre.imgFlashcode, { writer: 'png'}) }}" target="_blank">
+                                        <img src="{{ qrcode_url(oeuvre.imgFlashcode, { writer: 'png'}) }}" alt="FlashCode">
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Artiste</th>
+                                <td>
+                                    {{ oeuvre.artiste.nomComplet }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Type d'oeuvre</th>
+                                <td>
+                                    {{ oeuvre.typeoeuvre.discr }}
+                                </td>
+                            </tr>
+                                {% set new = 1 %}
+                                {% for multimedia in oeuvre.multimedias %}
+                            <tr>
+                                <th>Lien numéro {{ new }}</th>
+                                <td><a href="{{ multimedia.lien }}" target="_blank">{{ multimedia.nom }}</a></td>
+                            </tr>
+                                {% set new = new + 1 %}
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-5">
+                    {% if oeuvre.texteoeuvres is defined %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Langue</th>
+                                </tr>
+                            {% for texteoeuvre in oeuvre.texteoeuvres %}
+                                <tr>
+                                    <td>{{ texteoeuvre.description }}</td>
+                                    <td>{{ texteoeuvre.langue }}</td>
+                                </tr>
+                            {% endfor %}
+                            </table>
+                        </div>
+                    {% endif %}
+                    <img id="imgShowOeuv" class="img-responsive" src="{{ app.request.basepath }}/upload/{{ oeuvre.image}}" alt="Image Exposition" />
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

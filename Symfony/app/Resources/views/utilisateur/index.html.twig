@@ -1,0 +1,119 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Liste des utilisateurs
+        </div>
+        <div id="scrollind" class="col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for utilisateur in utilisateurs %}
+                    <tr>
+                        <td>{{ utilisateur.firstname|upper }}</td>
+                        <td>{{ utilisateur.lastname|capitalize }}</td>
+                        <td>
+                            {% if utilisateur.role == "ADMIN" %}
+                                Administrateur
+                            {% elseif utilisateur.role == "USER" %}
+                                Utilisateur
+                            {% else %}
+                                Indéfini
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a id="searchindex" class="glyphicon glyphicon-search" href="{{ path('utilisateur_show', { 'id': utilisateur.id }) }}"></a>
+                            <a id="editindex" class="glyphicon glyphicon-pencil" href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}"></a>
+                            <a id="delindex" name="{{ path('utilisateur_delete', { 'id': utilisateur.id }) }}" class="glyphicon glyphicon-trash" href="{{ utilisateur.firstname|upper ~ ' ' ~ utilisateur.lastname|capitalize }}"></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="modal-form">
+            <div class="head-form">
+                <span id="icone">Confirmez-vous la suppression de l'utilisateur ?</span>
+            </div>
+            <div class="content-form">
+                <p id="nom"></p>
+                <a id="oui" href="#" class="btn btn-success" type="button">Oui</a>
+                <a id="non" href="#" class="btn btn-danger" type="button">Non</a>
+            </div>
+        </div>
+        <ul class="nav nav-pills">
+            <li role="presentation">
+                <a id="util" href="{{ path('utilisateur_new') }}">Créer un nouvel utilisateur</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block javascripts %}
+  <script>
+
+    $(document).ready(function(){
+
+       // Pop-up form de suppression d'un utilisateur
+
+        // Si on clique sur une corbeille
+        $('a#delindex').click(function(e){
+
+            // On empêche le comportement du lien
+            e.preventDefault();
+
+            // On récupère le chemin
+            var path = $(this).attr('name');
+
+            // On définit le chemin dans le bouton oui
+            $('#oui').attr('href', path);
+
+            // On récupère le nom de la personne
+            var nom = $(this).attr('href');
+            // On l'ajoute dans la balise <p> du pop-up
+            $('p#nom').html(nom);
+
+            // On affiche la pop-up
+            $('#back').css('display','block');
+            $('#modal-form').css('display','block');
+
+            
+        });
+
+        // Si oui
+        $('#oui').click(function(){
+
+            // On cache la pop-up
+            $('#back').css('display','none');
+            $('#modal-form').css('display','none');
+        });
+
+        // Si non
+        $('#non').click(function(e){
+
+            // On empêche le comportement du lien
+            e.preventDefault();
+
+            // On cache la pop-up
+            $('#back').css('display','none');
+            $('#modal-form').css('display','none');
+        });
+
+        // Gestion de l'ascenseur si il dépasse la hauteur du tableau
+       if ($(".table").height() < $("#scrollind").height()) {
+            $("#scrollind").css("overflow-y" , "hidden");
+        }else{
+            $("#scrollind").css("overflow-y" , "scroll");
+        }
+
+    });
+    
+  </script>  
+{% endblock %}

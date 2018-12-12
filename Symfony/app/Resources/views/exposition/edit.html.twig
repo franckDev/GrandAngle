@@ -1,0 +1,770 @@
+{# extends 'base.html.twig' #}
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    {{ form_start(edit_form) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Modification d'une exposition
+        </div>
+        <div id="containerExpo" class="container">
+            <div class="row">
+                <div id="lienrow" class="col-md-12 col-sm-11">
+                    <div class="form-group">
+                        {# Erreurs générales du formulaire #}
+                        {{ form_errors(edit_form) }}
+                        <div class="row">
+                            <div class="form-group">
+
+                                {# Génération du label #}
+                                {{ form_label(edit_form.nomExposition, "Nom", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(edit_form.nomExposition) }}
+
+                                <div class="col-md-3">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(edit_form.nomExposition, {'attr': {'class': 'form-control ajust'}}) }}
+                                </div>
+
+
+                                {# Génération du label #}
+                                {{ form_label(edit_form.themes, "Thème", {'label_attr': {'class': 'col-md-1 col-md-offset-1 control-label ajust ajust2'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(edit_form.themes) }}
+
+                                <div class="col-md-3">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(edit_form.themes, {'attr': {'class': 'form-control ajust'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+
+                                {# Génération du label #}
+                                {{ form_label(edit_form.dateHeureDebutExposition, "Date Début", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(edit_form.dateHeureDebutExposition) }}
+
+                                <div class="col-md-3">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(edit_form.dateHeureDebutExposition, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+
+                                {# Génération du label #}
+                                {{ form_label(edit_form.dateHeureFinExposition, "Date Fin", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(edit_form.dateHeureFinExposition) }}
+
+                                <div class="col-md-3">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(edit_form.dateHeureFinExposition, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+
+                                {# Génération du label #}
+                                {{ form_label(edit_form.evenement, "Evenement", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(edit_form.evenement) }}
+
+                                <div class="col-md-9">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(edit_form.evenement, {'attr': {'class':  'ajust'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                {# Génération du label #}
+                                {{ form_label(edit_form.organisateur, "Organisateur", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(edit_form.organisateur) }}
+
+                                <div class="col-md-3 control-label ajust">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(edit_form.organisateur, {'attr': {'class': 'form-control ajust'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                {% image 'images/position.png'
+                                    filter='jpegoptim' output='/images/position.png' %}
+                                    <img class="img" src="{{ asset_url }}" alt="Example" width="500" heugth="250"/>
+                                {% endimage %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if edit_form.emplacements.0 is defined %}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        var $addLink =$('<a type="button" id="add_oeuvre" class="glyphicon glyphicon-ok-circle vert"></a>');
+                        $('#oeuvreexpo').append($addLink);
+                        var nbElements = $('#exposition_emplacements_1').length;
+                        var index = 0;
+                        while ($('#exposition_emplacements_'+index).length > 0) {
+                            // On récupère le lien de suppression
+                            var dellink = '<a type="button" name="'+index+'" class="glyphicon glyphicon-remove-circle red3"></a>'
+                            // On désactive le label de l'indice de collection
+                            $('label.required:contains('+index+')').css('display','none');
+                            // On récupère le groupe de champs dans son div
+                            var enfant  = $('#exposition_emplacements_'+index).children();
+                            // On en extrait les balises descendantes
+                            var descendant = enfant.find("*");
+                            
+                            // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                            $('.labeletat').append(descendant[0]);
+                            $('.champsetat').append(descendant[1]);
+                            $('.labelpos2').append(descendant[5]);
+                            $('.champspos').append(descendant[6]);
+                            $('.labeloeuvre2').append(descendant[37]);
+                            $('.champsoeuvre').append(descendant[38]);
+                            $('.deplace2 ').append(dellink);
+                            // On incremente après chaque disposition de champs
+                            index++;
+                        }
+                        // Puis on intègre tout ça dans le formulaire
+                        $('#lienrow').append($('#oeuvreexpo'));
+                         // Quand on clique pour supprimer un numéro
+                        $('a.red3').click(function(e){
+                            // On récupère l'index du champs à supprimer
+                            var num = $(this).attr('name');
+                            // On supprime les champs un à un
+                            // Label descript
+                            $('[for="exposition_emplacements_'+num+'_position"]').remove();
+                            // Champs pos
+                            $('[id="exposition_emplacements_'+num+'_position"]').remove();
+                             // Label oeuvre
+                            $('[for="exposition_emplacements_'+num+'_oeuvre"]').remove();
+                            // Champs oeuvre
+                            $('[id="exposition_emplacements_'+num+'_oeuvre"]').remove();
+                            // Label etat
+                            $('[for="exposition_emplacements_'+num+'_etat"]').remove();
+                            // Champs etat
+                            $('[id="exposition_emplacements_'+num+'_etat"]').remove();
+                            $(this).remove();
+                            e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                        });
+                        // On récupère la balise <div> qui contient le prototype
+                        var $container = $('div#exposition_emplacements');
+                        //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+                        $('#add_oeuvre').click(function(e) {
+                            var nbOeuvre= $('#oeuvre .form-group .form-group .deplace2').find('a').length;
+                            if(nbOeuvre < 30)
+                            {
+                                addOeuvre2($container);
+                            }
+                            e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                            return false;
+                        });
+                        //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+                        var index = $container.find(':input').length
+                        //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+                        if (index==0) {
+                            addOeuvre2($container);
+                        } else {
+                            //Pour chaque texte déjà existante, on ajoute un lien de suppression
+                            $container.children('div').each(function () {
+                                addDeleteLinkOeuvre2($(this));
+                            });
+                        }
+                        function addOeuvre2($Container) {
+                            var $prototype = $($container.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index+2)).replace(/__name__/g, index+'2'));
+                            $newprototype = $($prototype);
+                            var descendant = $newprototype.find('*');
+
+                            // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                            $('.labeletat').append(descendant[3]);
+                            $('.champsetat').append(descendant[4]);
+                            $('.labelpos2').append(descendant[9]);
+                            $('.champspos').append(descendant[10]);
+                            $('.labeloeuvre2').append(descendant[42]);
+                            $('.champsoeuvre').append(descendant[43]);
+                            // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                            addDeleteLinkOeuvre2($('.deplace2'));
+                            //on ajoute le prototype modifié à la fin de la balise <div>
+                            $('#oeuvreexpo').append($('#add_oeuvre'));
+                            //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                            index++;
+                        }
+                        //la fonction qui ajoute un lien de suppression d'un text
+                        function addDeleteLinkOeuvre2($prototype) {
+                            //création du lien 
+                            $deleteLink = $('<a type="button" name="'+index+'2'+'" class="glyphicon glyphicon-remove-circle red"></a>');
+                            //Ajout du lien
+                            $prototype.append($deleteLink);
+                            //Ajout du listener sur le clic du lien
+                            $deleteLink.click(function(e) {
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+                                // On supprime les champs un à un
+                                // Label descript
+                                $('[for="exposition_emplacements_'+num+'_position"]').remove();
+                                // Champs pos
+                                $('[id="exposition_emplacements_'+num+'_position"]').remove();
+                                 // Label oeuvre
+                                $('[for="exposition_emplacements_'+num+'_oeuvre"]').remove();
+                                // Champs oeuvre
+                                $('[id="exposition_emplacements_'+num+'_oeuvre"]').remove();
+                                // Label etat
+                                $('[for="exposition_emplacements_'+num+'_etat"]').remove();
+                                // Champs etat
+                                $('[id="exposition_emplacements_'+num+'_etat"]').remove();
+                                $(this).remove();
+                                
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                index--;
+                                return false;
+                            });
+                        }
+                    });
+                </script>
+                <div class="row">
+                    <div class="row">
+                        <div id="oeuvreexpo" class="col-md-12 col-sm-10 col-xs-10">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <div class="col-md-1 col-sm-1 col-xs-1 labelpos2 control-label"></div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1 champspos control-label"></div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1 labeloeuvre2 control-label"></div>
+                                    <div class="col-md-4 col-sm-2 col-xs-2 champsoeuvre control-label"></div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1 labeletat control-label"></div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 champsetat control-label"></div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1 deplace2 control-label"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+                        var $container = $('div#exposition_emplacements');
+                        //On ajoute un lien pour ajouter un nouveau textexposition
+                        var $addLink =$('<a type="button" id="add_oeuvre" class="glyphicon glyphicon-ok-circle vert"></a>');
+                        $('#oeuvreexpo').append($addLink);
+                        //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+                        $addLink.click(function(e) {
+                            addOeuvre($container);
+                            e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                            return false;
+                        });
+                        //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+                        var index = $container.find(':input').length
+                        //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+                        if (index==0) {
+                            addOeuvre($container);
+                        } else {
+                            //Pour chaque déjà existante, on ajoute un lien de suppression
+                            $container.children('div').each(function () {
+                                addDeleteLinkOeuvre($(this));
+                            });
+                        }
+                        //La function qui ajoute un formulaire textexposition
+                        function addOeuvre($Container) {
+                            // Dans le contenu de l'attribut "Data-prototype", on remplace
+                            // le texte "__name__label__" qu'il contient par le label du champ
+                            // le texte "__name__" qu'il contient par le numro du champ
+                            var $prototype = $($container.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index+2)).replace(/__name__/g, index));
+                            $newprototype = $($prototype);
+                            var descendant = $newprototype.find('*');
+                            
+                            // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                            $('.labeletat').append(descendant[3]);
+                            $('.champsetat').append(descendant[4]);
+                            $('.labelpos2').append(descendant[9]);
+                            $('.champspos').append(descendant[10]);
+                            $('.labeloeuvre2').append(descendant[42]);
+                            $('.champsoeuvre').append(descendant[43]);
+                            // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                            addDeleteLinkOeuvre($('.deplace2'));
+                            //on ajoute le prototype modifié à la fin de la balise <div>
+                            $('#oeuvreexpo').append($('#add_oeuvre'));
+                            //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                            index++;
+                        }
+                        //la fonction qui ajoute un lien de suppression d'un text
+                        function addDeleteLinkOeuvre($prototype) {
+                            //création du lien 
+                            $deleteLink = $('<a type="button" name="'+index+'" class="glyphicon glyphicon-remove-circle red red3"></a>');
+                            //Ajout du lien
+                            $prototype.append($deleteLink);
+                            //Ajout du listener sur le clic du lien
+                            $deleteLink.click(function(e) {
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+                                // On supprime les champs un à un
+                                // Label descript
+                                $('[for="exposition_emplacements_'+num+'_position"]').remove();
+                                // Champs pos
+                                $('[id="exposition_emplacements_'+num+'_position"]').remove();
+                                 // Label oeuvre
+                                $('[for="exposition_emplacements_'+num+'_oeuvre"]').remove();
+                                // Champs oeuvre
+                                $('[id="exposition_emplacements_'+num+'_oeuvre"]').remove();
+                                // Label etat
+                                $('[for="exposition_emplacements_'+num+'_etat"]').remove();
+                                // Champs etat
+                                $('[id="exposition_emplacements_'+num+'_etat"]').remove();
+                                $(this).remove();
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                index--;
+                                return false;
+                            });
+                        }
+                    });
+                </script>
+                <div id="oeuvreexpo" class="col-md-12 col-sm-10 col-xs-10">
+                    <div class="col-md-1 col-sm-1 col-xs-1 labelpos2 control-label"></div>
+                    <div class="col-md-1 col-sm-1 col-xs-1 champspos control-label"></div>
+                    <div class="col-md-1 col-sm-1 col-xs-1 labeloeuvre2 control-label"></div>
+                    <div class="col-md-4 col-sm-2 col-xs-2 champsoeuvre control-label"></div>
+                    <div class="col-md-1 col-sm-1 col-xs-1 labeletat control-label"></div>
+                    <div class="col-md-2 col-sm-2 col-xs-2 champsetat control-label"></div>
+                    <div class="col-md-1 col-sm-1 col-xs-1 deplace2 control-label"></div>
+                </div>
+            {% endif %}
+            {% if edit_form.textexpositions.0 is defined %}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        //On ajoute un lien pour ajouter un nouveau textexposition
+                        var $addLink =$('<a type="button" id="add_textexposition" class="glyphicon glyphicon-plus vert"></a>');
+                        $('#oeuvreexpo').append($addLink);
+                        // Nombre de champs téléphone généré
+                        var nbElements = $('#exposition_textexpositions_1').length;
+                        
+                        // On commence le compteur de champs
+                        var index = 0;
+                        // Tant que les champs existent on génère les labels et input pour afficher les valeurs
+                        while ($('#exposition_textexpositions_'+index).length > 0) {
+                            // On récupère le lien de suppression
+                            var dellink = '<a type="button" name="'+index+'" class="glyphicon glyphicon-minus red"></a>';
+                            // On désactive le label de l'indice de collection
+                            $('label.required:contains('+index+')').css('display','none');
+                            // On récupère le groupe de champs dans son div
+                            var enfant  = $('#exposition_textexpositions_'+index).children();
+                            // On en extrait les balises descendantes
+                            var descendant = enfant.find("*");
+                            // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                            $('.labeldes').append(descendant[0]);
+                            $('.champsdes').append(descendant[1]);
+                            $('.labellang').append(descendant[2]);
+                            $('.champslang').append(descendant[3]);
+                            $('.deplace').append(dellink);
+                            // On incremente après chaque disposition de champs
+                            index++;
+                        }
+                        // Puis on intègre tout ça dans le formulaire
+                        $('#formedit').append($('#formedit'));
+                         // Quand on clique pour supprimer un numéro
+                        $('a.red').click(function(e){
+                            // On récupère l'index du champs à supprimer
+                            var num = $(this).attr('name');
+                            // On supprime les champs un à un
+                            // Label descript
+                            $('[for="exposition_textexpositions_'+num+'_description"]').remove();
+                            // Champs descript
+                            $('[id="exposition_textexpositions_'+num+'_description"]').remove();
+                            // Label langue
+                            $('[for="exposition_textexpositions_'+num+'_langue"]').remove();
+                            // Champs langue
+                            $('[id="exposition_textexpositions_'+num+'_langue"]').remove();
+                            $(this).remove();
+                            e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                        });
+                        // On récupère la balise <div> qui contient le prototype
+                        var $container = $('div#exposition_textexpositions');
+                        //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+                        $('#add_textexposition').click(function(e) {
+                            var nbTexte = $(document).find('textarea').length;
+                            if(nbTexte < 5)
+                            {
+                                addTextExposition2($container);
+                            }
+                            e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                            return false;
+                        });
+                        //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+                        var index = $container.find(':input').length
+                        //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+                        if (index==0) {
+                            addTextExposition2($container);
+                        } else {
+                            //Pour chaque texte déjà existante, on ajoute un lien de suppression
+                            $container.children('div').each(function () {
+                                addDeleteLink2($(this));
+                            });
+                        }
+                        //La function qui ajoute un formulaire textexposition
+                        function addTextExposition2($Container) {
+                            // Dans le contenu de l'attribut "Data-prototype", on remplace
+                            // le texte "__name__label__" qu'il contient par le label du champ
+                            // le texte "__name__" qu'il contient par le numro du champ
+                            var $prototype = $($container.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index+1)).replace(/__name__/g, index+'1'));
+                            $newprototype = $($prototype);
+                            var descendant = $newprototype.find('*');
+                            // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                            $('.labeldes').append(descendant[3]);
+                            $('.champsdes').append(descendant[4]);
+                            $('.labellang').append(descendant[6]);
+                            $('.champslang').append(descendant[7]);
+                            // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                            addDeleteLink2($('.deplace'));
+                            //on ajoute le prototype modifié à la fin de la balise <div>
+                            $('#formedit').append($('#add_textexposition'));
+                            //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                            index++;
+                        }
+                        //la fonction qui ajoute un lien de suppression d'un text
+                        function addDeleteLink2($prototype) {
+                            //création du lien 
+                            $deleteLink = $('<a type="button" name="'+index+'1'+'" class="glyphicon glyphicon-minus red"></a>');
+                            //Ajout du lien
+                            $prototype.append($deleteLink);
+                            //Ajout du listener sur le clic du lien
+                            $deleteLink.click(function(e) {
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+                                // On supprime les champs un à un
+                                // Label descript
+                                $('[for="exposition_textexpositions_'+num+'_description"]').remove();
+                                // Champs descript
+                                $('[id="exposition_textexpositions_'+num+'_description"]').remove();
+                                 // Label langue
+                                $('[for="exposition_textexpositions_'+num+'_langue"]').remove();
+                                // Champs langue
+                                $('[id="exposition_textexpositions_'+num+'_langue"]').remove();
+                                $(this).remove();
+                                
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                index--;
+                                return false;
+                            });
+                        }
+                    });
+                </script>
+                <div id="formedit" class="col-md-10 col-sm-10 col-xs-10">
+                    <div class="form-group">
+                        <div id="labeldescrip" class="col-md-2 col-sm-2 col-xs-2 labeldes control-label ajust ajust2"></div>
+                        <div class="col-md-4 col-sm-3 col-xs-10 champsdes"></div>
+                        <div class="col-md-1 col-sm-2 col-xs-2 labellang control-label ajust ajust2"></div>
+                        <div class="col-md-3 col-sm-3 col-xs-10 champslang control-label ajust ajust2"></div>
+                        <div class="col-md-1 col-sm-1 col-xs-1 deplace control-label ajust ajust2"></div>
+                    </div>
+                </div>
+            {% else %}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+                        var $container = $('div#exposition_textexpositions');
+                        //On ajoute un lien pour ajouter un nouveau textexposition
+                        var $addLink =$('<a type="button" id="add_textexposition" class="glyphicon glyphicon-plus vert"></a>');
+                        $('#formedit2').append($addLink);
+                        //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+                        $addLink.click(function(e) {
+                             var nbTexte = $(document).find('textarea').length;
+                            if(nbTexte < 5)
+                            {
+                                addTextExposition($container);
+                            }
+                            e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                            return false;
+                        });
+                        //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+                        var index = $container.find(':input').length
+                        //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+                        if (index==0) {
+                            addTextExposition($container);
+                        } else {
+                            //Pour chaque déjà existante, on ajoute un lien de suppression
+                            $container.children('div').each(function () {
+                                addDeleteLink($(this));
+                            });
+                        }
+                        //La function qui ajoute un formulaire textexposition
+                        function addTextExposition($Container) {
+                            // Dans le contenu de l'attribut "Data-prototype", on remplace
+                            // le texte "__name__label__" qu'il contient par le label du champ
+                            // le texte "__name__" qu'il contient par le numro du champ
+                            var $prototype = $($container.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index+1)).replace(/__name__/g, index));
+                            $newprototype = $($prototype);
+                            var descendant = $newprototype.find('*');
+                           
+                            // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                            $('.labeldes').append(descendant[3]);
+                            $('.champsdes').append(descendant[4]);
+                            $('.labellang').append(descendant[6]);
+                            $('.champslang').append(descendant[7]);
+                            // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                            addDeleteLink($('.deplace'));
+                            //on ajoute le prototype modifié à la fin de la balise <div>
+                            $('#formedit2').append($('#add_textexposition'));
+                            //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                            index++;
+                        }
+                        //la fonction qui ajoute un lien de suppression d'un text
+                        function addDeleteLink($prototype) {
+                            //création du lien 
+                            $deleteLink = $('<a type="button" name="'+index+'" class="glyphicon glyphicon-minus red"></a>');
+                            //Ajout du lien
+                            $prototype.append($deleteLink);
+                            //Ajout du listener sur le clic du lien
+                            $deleteLink.click(function(e) {
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+                                // On supprime les champs un à un
+                                // Label descript
+                                $('[for="exposition_textexpositions_'+num+'_description"]').remove();
+                                // Champs descript
+                                $('[id="exposition_textexpositions_'+num+'_description"]').remove();
+                                 // Label langue
+                                $('[for="exposition_textexpositions_'+num+'_langue"]').remove();
+                                // Champs langue
+                                $('[id="exposition_textexpositions_'+num+'_langue"]').remove();
+                                $(this).remove();
+                                
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                index--;
+                                return false;
+                            });
+                        }
+                    });
+                </script>
+               <div id="formedit2" class="col-md-10 col-sm-10 col-xs-10">
+                    <div class="form-group">
+                        <div id="labeldescrip" class="col-md-2 col-sm-2 col-xs-2 labeldes control-label ajust ajust2"></div>
+                        <div class="col-md-4 col-sm-3 col-xs-10 champsdes"></div>
+                        <div class="col-md-1 col-sm-2 col-xs-2 labellang control-label ajust ajust2"></div>
+                        <div class="col-md-3 col-sm-3 col-xs-10 champslang control-label ajust ajust2"></div>
+                        <div class="col-md-1 col-sm-1 col-xs-1 deplace control-label ajust ajust2"></div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                //Test Nom de l'exposition
+                $('#exposition_nomExposition').change(function(event){
+                    var idExpo = {{ exposition.id }};
+                    var nomExpo = $(this).val();
+                    if(nomExpo != '')
+                    {
+                        $.ajax({
+                            url: "{{ path('test_nom_exposition') }}", 
+                            method: "post",
+                            data: {nomExpo: nomExpo, idExpo: idExpo}
+                        }).done(function(msg){
+                            if(msg.data == "true"){
+                                alert("Cette exposition existe déjà !");
+                                $('#newsub').hide('slow/400/fast');
+                            }else{
+                                $('#newsub').show('slow/400/fast');
+                            }
+                        });
+                    }
+                });
+                //Test Langue
+                $('#newsub').click(function(event) {
+                    // On vérifie la diversité des langues
+                    // On récupère le nombre de langue afficher
+                    var nbLangue = $('.champslang').children('*').length;
+                    if(nbLangue > 1){
+                        tableLang = new Array();
+                        // Puis on boucle dessus
+                        for(var a = 0; a < nbLangue; a++){
+                            tableLang[a] = $('#exposition_textexpositions_'+a+'_langue option:selected').text();
+                        }
+                        // On trie par ordre alphabétique
+                        tableLang.sort();
+                        // Puis on reboucle en comparant chaque paires ordonnées
+                        var ordo = false;
+                        var nextTable = "";
+                        for(var b = 0; b < nbLangue; b++){
+                            // On vérifie si l'élément en cours est strictement égal au précédent
+                            if(tableLang[b] == nextTable){
+                                ordo = true;
+                            }
+                            // On définit le précédent suivant
+                            nextTable = tableLang[b];
+                        }
+                        
+                        if(ordo){
+                            // On stoppe le comportement par défaut
+                            event.preventDefault();
+                            alert("Vous ne pouvez pas enregistrer plusieurs traductions avec la même langue !");
+                            return;
+                        }else{
+                           // Suppression de l'objet event
+                            delete event;
+                        }
+                    }
+                    //On regarde la diversité des oeuvres
+                    var nbOeuvre = $('.champsoeuvre').children('*').length;
+                    if(nbOeuvre > 1){
+                        tableOeuv = new Array();
+                        // Puis on boucle dessus
+                        for(var a = 0; a < nbOeuvre; a++){
+                            tableOeuv[a] = $('#exposition_emplacements_'+a+'_oeuvre option:selected').text();
+                        }
+                        // On trie par ordre alphabétique
+                        tableOeuv.sort();
+                        // Puis on reboucle en comparant chaque paires ordonnées
+                        var ordo = false;
+                        var nextTable = "";
+                        for(var b = 0; b < nbOeuvre; b++){
+                            // On vérifie si l'élément en cours est strictement égal au précédent
+                            if(tableOeuv[b] == nextTable){
+                                ordo = true;
+                            }
+                            // On définit le précédent suivant
+                            nextTable = tableOeuv[b];
+                        }
+                        
+                        if(ordo){
+                            // On stoppe le comportement par défaut
+                            event.preventDefault();
+                            alert("Vous ne pouvez pas enregistrer plusieurs oeuvre avec le même nom !");
+                            return;
+                        }else{
+                           // Suppression de l'objet event
+                            delete event;
+                        }
+                    }
+                    //On regarde la diversité des positions
+                    var nbPosition = $('.champspos').children('*').length;
+                    if(nbPosition > 1){
+                        tablePos = new Array();
+                        // Puis on boucle dessus
+                        for(var a = 0; a < nbPosition; a++){
+                            tablePos[a] = $('#exposition_emplacements_'+a+'_position option:selected').text();
+                        }
+                        // On trie par ordre alphabétique
+                        tablePos.sort();
+                        // Puis on reboucle en comparant chaque paires ordonnées
+                        var ordo = false;
+                        var nextTable = "";
+                        for(var b = 0; b < nbPosition; b++){
+                            // On vérifie si l'élément en cours est strictement égal au précédent
+                            if(tablePos[b] == nextTable){
+                                ordo = true;
+                            }
+                            // On définit le précédent suivant
+                            nextTable = tablePos[b];
+                        }
+                        
+                        if(ordo){
+                            // On stoppe le comportement par défaut
+                            event.preventDefault();
+                            alert("Vous ne pouvez pas enregistrer plusieurs oeuvre avec la même position !");
+                            return;
+                        }else{
+                           // Suppression de l'objet event
+                            delete event;
+                        }
+                    }
+                });
+/*                $('#exposition_dateHeureDebutExposition').blur(function(event){
+                    controleDate();
+                    controleDate2();
+                });
+                $('#exposition_dateHeureFinExposition').blur(function(event){
+                    controleDate();
+                    controleDate2();
+                });*/
+            });
+        </script>
+        <div class="row">
+            <div id="exposition" class="form-group col-md-12"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-md-offset-4">
+                <input id="newsub" type="submit" value="Enregistrer" />
+                <a id="newret" href="{{ path('exposition_index') }}">retour</a>
+            </div>
+        </div>
+    </div>
+    {{ form_end(edit_form) }}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts 'js/jquery.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts 'js/jquery.datetimepicker.full.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts 'js/fileinput.min.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#input-id").fileinput('refresh', {browseLabel: 'Select...', removeLabel: 'Delete'});
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.datetimepicker.setLocale('fr');
+            $('.calendar').datetimepicker({
+                dayOfWeekStart : 1,
+                lang:'fr',
+                format:'d/m/Y H:i',
+            });
+        });
+         //Fonction pour controler les dates
+        function controleDate(){
+            var idExpo = {{ exposition.id }};
+            var dateDebut = $('#exposition_dateHeureDebutExposition').val();
+            var dateFin = $('#exposition_dateHeureFinExposition').val();
+            if(dateDebut != '' && dateFin != '')
+            {
+                $.ajax({
+                    url: "{{ path('test_datediff_exposition') }}", 
+                    method: "post",
+                    data: {dateDebut: dateDebut,dateFin: dateFin}
+                }).done(function(msg){
+                    if(msg.data == "true"){
+                        alert("Cette exposition posséde une date de fin inférieur a la date de début et ou la date de fin est inférieur à 1 semaine par rapport à la date début, ou encore la date de fin est supérieur à 4 semaines par rapport à la date de début !");
+                        $('#newsub').hide();
+                    }else{
+                        $('#newsub').show();
+                    }
+                });
+            }
+        }
+        function controleDate2(){
+            var idExpo = {{ exposition.id }};
+            var dateDebut = $('#exposition_dateHeureDebutExposition').val();
+            var dateFin = $('#exposition_dateHeureFinExposition').val();
+            if(dateDebut != '' && dateFin != '')
+            {
+                $.ajax({
+                    url: "{{ path('test_dateexpo_exposition') }}", 
+                    method: "post",
+                    data: {dateDebut: dateDebut,dateFin: dateFin, idExpo: idExpo}
+                }).done(function(msg){
+                    if(msg.data == "true"){
+                        alert("Cette exposition est à cheval sur une autre exposition ou alors la durée de séparation de 2 expositions y compris celle là est inférieur à 3 jours. Veuillez saisir de nouvelles date !");
+                        $('#newsub').hide();
+                    }else{
+                        $('#newsub').show();
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}

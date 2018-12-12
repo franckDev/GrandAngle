@@ -1,0 +1,25 @@
+{# app/Resources/views/email/alert_oeuvre.email.twig #}
+
+{% block subject %}Récapitulatif des oeuvres non livrées{% endblock %}
+
+{% block body_html %}
+
+<p>Bonjour {{ user }} !</p>
+
+<p>L'exposition {{ expo.nomExposition }} qui débute dans 7 jours contient les oeuvres ci-dessous qui ne sont pas encore livrées :</p>
+
+<p>
+	<ul>
+		{% for oeuvre in listOeuv %}
+		    <li style="color:red;">{{ oeuvre.oeuvre.nom }} : {{ oeuvre.etat }}</li>
+		{% endfor %} 
+	</ul>
+</p>
+
+<footer>
+	Cordialement,<br>
+	Le Webmaster.
+</footer>
+
+
+{% endblock %}

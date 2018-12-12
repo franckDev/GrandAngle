@@ -1,0 +1,80 @@
+{# Layout de la page principale #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Bienvenue!{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets 'images/logo.bmp' %}
+                <link rel="shortcut icon" type="image/x-icon" href="{{ asset_url }}" />
+            {% endstylesheets %}
+            <!-- Latest compiled and minified CSS -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+            <!-- Optional theme -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+            {# Css jquery-ui #}
+            {% stylesheets 'css/ui-lightness/jquery-ui-1.7.2.custom.css' %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+            {# Css Datepicker #}
+            {% stylesheets 'css/jquery.datetimepicker.css' %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+            {# Css Style perso #}
+            {% stylesheets 'css/stylesite.css' %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+
+        {# Script Jquery #}
+        {% javascripts 'js/jquery/jquery.min.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {# Script Bootstrap #}
+        {% javascripts 'js/bootstrap/bootstrap.min.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    </head>
+    <body>
+        <div id="back"></div>
+        <div id="contentlay" class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-default">
+                        <ul class="nav nav-pills">
+                            <li role="presentation"><a id="acce" title="Accueil" href="{{ path("module_gestion_index") }}">Accueil</a></li>
+                            <li role="presentation"><a id="expo" title="Exposition" href="{{ path("exposition_index") }}">Gestion des Expositions</a></li>
+                            <li role="presentation"><a id="oeuv" title="Oeuvre" href="{{ path("oeuvre_index") }}">Gestion des Oeuvres</a></li>
+                            {% if role is defined %}
+                                {% if role == "ADMIN" %}
+                                <li id="droit" role="presentation"><a id="util" title="Utilisateur" href="{{ path("utilisateur_index") }}">Gestion des Utilisateurs</a></li>
+                                {% endif %}
+                            {% endif %}
+                            <li role="presentation"><a id="stat" data-toggle="dropdown" class="dropdown-toggle" title="Statistiques">Gestion des Statistiques</a>
+                                <ul class="dropdown-menu">
+                                    <li role="presentation"><a id="statexpo" href="{{ path("statistique_expo") }}">Graphique Exposition</a></li>
+                                    <li role="presentation"><a id="statoeuvre" href="{{ path("statistique_oeuvre") }}">Graphique Oeuvre</a></li>
+                                </ul>
+                            </li>
+                            <li role="presentation"><a id="deco" title="Deconnexion" href="{{ path('fos_user_security_logout') }}">Deconnexion</a></li>
+                            <li role="presentation">
+                            {% image 'images/logo2.png' filter='jpegoptim' %}
+                            <img id="logoAc" class="img-responsive" title="Grand Angle" src="{{ asset_url }}" width="140" height:"90" />
+                            {% endimage %}
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <script>
+                    $('.dropdown').mouseover(function() {
+                        $(this).toggleClass("open");     
+                    });
+                </script>
+            </div>
+            <div>
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

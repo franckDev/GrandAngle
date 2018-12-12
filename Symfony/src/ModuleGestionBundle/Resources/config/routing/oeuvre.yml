@@ -1,0 +1,24 @@
+oeuvre_index:
+    path:     /
+    defaults: { _controller: "ModuleGestionBundle:Oeuvre:index" }
+    methods:  [GET, POST]
+
+oeuvre_show:
+    path:     /{id}/show
+    defaults: { _controller: "ModuleGestionBundle:Oeuvre:show" }
+    methods:  GET
+
+oeuvre_new:
+    path:     /new
+    defaults: { _controller: "ModuleGestionBundle:Oeuvre:new" }
+    methods:  [GET, POST]
+
+oeuvre_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ModuleGestionBundle:Oeuvre:edit" }
+    methods:  [GET, POST]
+
+oeuvre_delete:
+    path:     /delete
+    defaults: { _controller: "ModuleGestionBundle:Oeuvre:delete" }
+    methods:  [GET, POST]

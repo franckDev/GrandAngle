@@ -1,0 +1,54 @@
+{% extends "::layout/layout.html.twig" %}
+ {% block body %}
+ 	<style>
+		img.img{height:151px;width:202px;margin-top:10px;margin-bottom:10px;border:1px black solid;}
+		div.panel.pad{padding-left: 25px;padding-right: 25px; height: 52em;}
+		div.panel-heading.heig{height:51em;}
+		h4 span{line-height: 1px;}
+		button.btn{margin-bottom:10px;}
+ 	</style>
+    <div class="panel panel-default pad">
+        <div class="panel-heading heig">
+        	<div class="row">
+        		<div class="col-md-10 col-md-offset-1">
+        			<h3>Bonjour et Bienvenue sur la page d'accueil !</h3>
+					<p>GrandAngle Module de Gestion nous sommes le {{ "now"|date("d/m/Y") }}.</p>
+					{# <h4>Voici les quatres prochaines expositions</h4>
+					<br><br> #}
+				</div>
+			</div>
+			<div class="row">
+				<div class="row text-center">
+					{% for exposition in expositions %}
+					<div class="col-md-3">
+					    <div class="thumbnail">
+							<img class="img" src="{{ app.request.basepath }}/upload/{{ exposition.Fichier}}" alt="Image Exposition" />
+					       	<p><strong>{{ exposition.Nom }}</strong></p>
+					       	<p>{{ exposition.DateHeure }}</p>
+					       	<a class="btn btn-primary" href="{{ path('exposition_show', { 'id': exposition.Id }) }}">Voir détail</a>
+					    </div>
+					</div>
+					{% endfor %}
+				</div>
+			{% if oeuvNonLivre is not null %}
+			</div>
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<h3 style="color:red;"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;&nbsp;Attention il y a des Oeuvres non livrées !</h3>
+					{% for oeuvreExpo in oeuvNonLivre %}
+					    <tr>
+					    	<td>
+					    		<ul class="list-group">
+					    			{% for oeuvre in oeuvreExpo.emplacements %}
+					    			    <li class="list-group-item" style:"color=red;">{{ oeuvre.oeuvre.nom }} => {{ oeuvre.etat }} ( {{ oeuvreExpo.nomExposition }} )</li>
+					    			{% endfor %}
+					    		</ul>
+					    	</td>
+					    </tr>
+					{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+    	</div>
+    </div>
+{% endblock %}

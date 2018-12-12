@@ -1,0 +1,24 @@
+artiste_index:
+    path:     /
+    defaults: { _controller: "ModuleGestionBundle:Artiste:index" }
+    methods:  GET
+
+artiste_show:
+    path:     /{id}/show
+    defaults: { _controller: "ModuleGestionBundle:Artiste:show" }
+    methods:  GET
+
+artiste_new:
+    path:     /new
+    defaults: { _controller: "ModuleGestionBundle:Artiste:new" }
+    methods:  [GET, POST]
+
+artiste_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ModuleGestionBundle:Artiste:edit" }
+    methods:  [GET, POST]
+
+artiste_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ModuleGestionBundle:Artiste:delete" }
+    methods:  DELETE

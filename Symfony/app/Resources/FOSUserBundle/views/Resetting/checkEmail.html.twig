@@ -1,0 +1,48 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}Confirmation{% endblock %}
+
+{% block stylesheet %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<style>
+		body{background-color: #828282;}
+        p.bg-success {
+        	font-size:1em;
+        	position:absolute;
+        	top: 8.1em;
+        	background-color: #46C2EA;
+        	border: 3px solid #214873;
+        	color:#F5F0F0;
+        	text-align: center;
+        	margin-top:35%;
+        	margin-bottom:35%;
+        	padding:1em 4.86em;
+        	border-bottom-left-radius: 25px;
+        	border-bottom-right-radius: 25px;
+        }
+        p.env {
+        	background-color:#46C2EA;
+        	width:73em;
+        	height:250px;
+        	position:absolute;
+        	top:16.9em;
+        	border:80px solid #214873;
+        }
+        .env span {
+        	position:relative;
+        	width: 115em;
+        	bottom: 0.345em;
+        	font-size: 17em;
+        }
+
+    </style>
+{% endblock %}
+{% block fos_user_content %}
+	<div class="col-md-10 col-md-offset-1">
+		<p class="env"><span>V</span></p>
+		<p class="bg-success">
+			{{ 'resetting.check_email'|trans({'%email%': email}) }}
+		</p>
+	</div>
+{% endblock %}

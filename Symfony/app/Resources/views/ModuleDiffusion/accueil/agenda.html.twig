@@ -1,0 +1,31 @@
+{% extends "::ModuleDiffusion/layout/layout.html.twig"%}
+
+
+{% block body %}
+  {# Css du calendar #}
+  <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
+  
+  {# Nécessaire pour les routes du calendar  #}
+  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+  {# Menu du Calendar #}
+  <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
+  {# Calendar #}
+  <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
+  
+  <div class="col-md-8 col-md-offset-2 col-xs-12">
+    {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
+  </div>
+
+  <script>
+
+    $(document).ready(function() {
+
+       $('#calendar').fullCalendar('option', 'height', 700);
+    });
+
+</script>
+
+{% endblock body %}
+{% block javascripts %}{% endblock %}

@@ -1,0 +1,40 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+{{ form_start(form, {'attr': {'id': 'formTheme'}}) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Création d'un Thème
+        </div>
+        <div class="container">
+            <div class="row">
+                <div id="lienrow" class="col-md-5 col-sm-11">
+                    <div class="form-group">
+                        {# Erreurs générales du formulaire #}
+                        {{ form_errors(form) }}
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(form.libelle, "Nom", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(form.libelle) }}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(form.libelle, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <input id="newsub" type="submit" value="Enregistrer" />
+                <a id="newret" href="{{ path('exposition_new') }}">retour</a>
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "::ModuleDiffusion/layout/layout.html.twig"%}
+
+{% block body %}
+<div class="col-md-8 col-md-offset-2 col-xs-12 margehaut">
+	<div class="row">
+		<div class="col-md-6" class="blocheigth">
+			<img class="img" src="{{ app.request.basepath }}/upload/{{ oeuvre.image}}" alt="Image Oeuvre" />
+		</div>
+		<div class="col-md-6" class="blocheigth">
+			<h1>{{ oeuvre.nom}}</h1>
+			<div id="border">
+				<p>{{trad.0.descrpt}}</p>
+			</div>
+		</div>
+	</div>
+	<div class="row margetop">
+		{% for multi in multis %}
+			<div class="col-md-6">
+				<h2>{{ multi.nom}}</h1>
+				<video src="{{multi.lien}}" controls>
+				  Votre navigateur ne gère pas l'élément <code>video</code>.
+				</video>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock body %}
+{% block javascripts %}
+	<script type="text/javascript">
+		var id = {{oeuvre.id}};
+		console.log(id);
+		var idE = {{idE}};
+		console.log(idE);
+		$.ajax(
+	    {
+	        url: "{{ path('module_diffusion_majvuo') }}", // On renseigne l'url TWIG
+	        method: "post",
+	        data: {id: id,
+	        	   idE: idE} // On passe l'id dans la requête
+	    }).done(function(msg){
+	    	console.log(msg);
+	    });
+	</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+DELIMITER |
+
+DROP FUNCTION IF EXISTS Compate_Date;
+
+CREATE FUNCTION Compate_Date (IN JourDeb date) RETURNS BOOL
+BEGIN
+	DECLARE datFin DATE;
+	DECLARE dateDeb DATE;
+	DECLARE verif BOOL;
+	DECLARE C1 CURSOR FOR SELECT dateHeureFinExposition, dateHeureDebutExposition FROM EXPOSITION;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	OPEN C1;
+	read_loop : LOOP
+		FETCH C1 INTO datFin,dateDeb;
+		
+	END LOOP read_loop;
+	CLOSE C1;
+END |

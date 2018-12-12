@@ -1,0 +1,255 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Liste des oeuvres
+        </div>
+        {# Selection de l'exposition #}
+        <div id="choiceexpo" class="row">
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-1">
+                    <select id="choixExpo" class="form-control" name="expo">
+                        <option value="choix">Choisissez une exposition</option>
+                    {% for exposition in expositions %}
+                        <option value="{{ exposition.id }}">{{ exposition.nomExposition }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <ul class="nav nav-pills">
+                        <li>
+                        <a id="newoeuv" title="Nouvelle oeuvre" href="{{ path('oeuvre_new') }}">Nouvelle</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {# Affichage de la liste des oeuvres #}
+        <div id="scrolloeuv" class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Artiste</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                        <th>Imprimer</th>
+                    </tr>
+                </thead>
+                {% if pagination is defined %}
+                    <tbody id="list">
+                    {% for oeuvre in pagination %}
+                        <tr>
+                            <td>{{ oeuvre.nom }}</td>
+                            <td>{{ oeuvre.artiste.nomComplet }}</td>
+                            <td>{{ oeuvre.typeoeuvre.discr }}</td>
+                            <td class="buttonTab">
+                                <a id="searchindex" title="Voir détail" class="glyphicon glyphicon-search" href="{{ path('oeuvre_show', { 'id': oeuvre.id }) }}"></a>
+                                <a id="editindex" title="Modifier" class="glyphicon glyphicon-pencil" href="{{ path('oeuvre_edit', { 'id': oeuvre.id }) }}"></a>
+                                <a id="delindex" title="Supprimer" name="{{ oeuvre.id }}" class="glyphicon glyphicon-trash del" href="{{ path('oeuvre_delete', { 'id': oeuvre.id }) }}"></a>
+                            </td>
+                            <td>
+                                {% if oeuvre.genFlashCode %}
+                                    <a id="qrcindex" title="Imprimer un Qrcode" href="{{ qrcode_url(oeuvre.imgFlashcode, { writer: 'png'}) }}" class="glyphicon glyphicon-qrcode" target="_blank"></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {# display navigation #}
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                   <script type="text/javascript">
+
+                        $('#list').append($('.navigation'));
+
+                        $('a#delindex').click(function(event) {
+                            
+                            // On bloque le comportement du bouton
+                            event.preventDefault();
+
+                            // Message de confirmation
+                            var test = confirm("Etes vous sur de vouloir supprimer cette oeuvre ?");
+
+                            if(test){
+                                // On récupère l'id de l'oeuvre
+                                var id = $(this).attr('name');
+
+                                $.ajax({
+                                    url: "{{ path('oeuvre_delete') }}",  // On renseigne l'url TWIG
+                                    method: "post",
+                                    data: {id: id} // On passe l'id dans la requête
+                                }).done(function(msg){
+                                    // Suppression de la ligne en cause
+                                    $('a[name="'+id+'"]').parent().parent().hide();
+                                    alert(msg.msg);
+                                }); 
+                            }
+                           
+                        });
+                    </script>
+                    </tbody>
+                {% else %}
+                    <tbody id="list"></tbody>
+                {% endif %}
+            </table>
+        </div>
+        <div class="row"></div>
+        <input id="url_path" type="hidden" name="path" value="{{ app.request.baseurl }}">
+        <input id="url_code" type="hidden" name="code" value="{{ app.request.baseurl }}">
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+    
+    $(document).ready(function(){
+
+        scroll();
+
+        function scroll(){
+
+            // Gestion de l'ascenseur si il dépasse la hauteur du tableau
+            if ($(".table").height() < $("#scrolloeuv").height()) {
+                $("#scrolloeuv").css("overflow-y" , "hidden");
+            }else{
+                $("#scrolloeuv").css("overflow-y" , "scroll");
+            }
+
+        }
+
+        // Choix d'une exposition
+        $('#choixExpo').change(function(){
+            var id = $(this).val();
+            if (id != 'choix') {
+                list = $('#list'); // récupérer l'élément liste du code HTML
+
+                $('option[value="choix"]').html('<span class="red">Recharger la liste des Oeuvres</span>');
+                $('span.red').css('color', 'red');
+                tr = document.createElement('tr'); 
+
+               function ajaxCall(id){
+                    $.ajax({
+                        url: "{{ path('list_oeuvre') }}", // On renseigne l'url TWIG
+                        method: "post",
+                        data: {id: id} // On passe l'id dans la requête
+                    }).done(function(msg){
+                        refreshList(msg);
+                    });
+               }
+
+               ajaxCall(id);
+            }else{
+                $.ajax({
+                    url: "{{ path('oeuvre_index') }}", // On renseigne l'url TWIG
+                    method: "post",
+                }).done(function(msg){
+                    refreshList(msg);
+                });
+                scroll();
+            }
+        });
+        // Fonction pour afficher les données
+        function refreshList(msg){
+
+            // mettre à jour les données de la page
+            list[0].innerHTML = ""; // Efface la liste
+
+            // Pour chaque élément trouvé dans le document JSON, on peuple la liste
+            $.each(JSON.parse(msg['data']), function(i, item) {
+ 
+                // On créé une colonne pour chacun des champs
+                li = document.createElement('td');
+                li2 = document.createElement('td');
+                li3 = document.createElement('td');
+                li5 = document.createElement('td');
+                li5.setAttribute('class', 'buttonTab');
+                li6 = document.createElement('td');
+                
+                console.log(item);
+                // On récupère les données
+                nom = document.createTextNode(item.nom);
+                artiste = document.createTextNode(item.nomArt+' '+item.preNomArt);
+
+                // On reformate le nom des types correctement
+                if(item.type == "multimediatype")
+                    item.type = "Multimédia";
+                else if(item.type == "tableau")
+                    item.type = "Tableau";
+                else if(item.type == "statut")
+                    item.type = "Statut";
+                type = document.createTextNode(item.type);
+
+                // On récupère le path pour les boutons
+                var path = $('#url_path').val();
+                // On récupère le path pour le qrcode
+                var Qrcode = $('#url_code').val();
+
+                // On créé les boutons
+                var show = document.createElement('a');
+                show.id = 'searchindex';
+                show.href = path+'/gestion/oeuvre/'+item.id+'/show';
+                show.title = 'Voir détail';
+                show.setAttribute('class','glyphicon glyphicon-search');
+
+                var edit = document.createElement('a');
+                edit.id = 'editindex';
+                edit.href = path+'/gestion/oeuvre/'+item.id+'/edit';
+                edit.title = 'Modifier';
+                edit.setAttribute('class','glyphicon glyphicon-pencil');
+
+                var del  = document.createElement('a');
+                del.id = 'delindex';
+                del.href = path+'/gestion/oeuvre/delete?id='+item.id;
+                del.title = 'Supprimer';
+                del.setAttribute('name', item.id);
+                del.setAttribute('class','glyphicon glyphicon-trash del');
+
+                // On vérifie si un qrcode a été généré avant de créé le bouton
+                if(item.img != "" && item.img != null){
+                    var code = document.createElement('a');
+                    code.id = 'qrcindex';
+                    code.href = Qrcode+'/gestion/qrcode/'+item.img+'.png';
+                    code.title = 'Imprimer un Qrcode';
+                    code.target = '_blank';
+                    code.setAttribute('class','glyphicon glyphicon-qrcode');
+                }
+
+                console.log(item);
+                
+                // On insère les données dans chacune des colonnes
+                li.appendChild(nom);
+                li2.appendChild(artiste);
+                li3.appendChild(type);
+                li5.appendChild(show);
+                li5.appendChild(edit);
+                li5.appendChild(del);
+                if(item.img != "" && item.img != null)
+                    li6.appendChild(code);
+
+                //On insère dans la ligne les différentes colonnes
+                tr.appendChild(li);
+                tr.appendChild(li2);
+                tr.appendChild(li3);
+                tr.appendChild(li5);
+                if(item.img != "")
+                    tr.appendChild(li6);
+
+                list[0].appendChild(tr);
+
+                tr = document.createElement('tr');
+            });
+
+            // On prépare le script pour la suppression
+            var script = document.createElement("SCRIPT");
+            var content = document.createTextNode("$('a#delindex').click(function(e){e.preventDefault();t=confirm('Etes vous sur de vouloir supprimer cette oeuvre ?');if(t){a=$(this).attr('name');$.ajax({url:"+"\"{{ path('oeuvre_delete') }}\""+",method:'post',data:{id:a}}).done(function(e){$(\"a[name=\'\"+a+\"\']\").parent().parent().hide()})}});");
+             
+            script.appendChild(content);
+
+            list[0].appendChild(script);
+
+            scroll();             
+        }
+    });
+  </script>  
+{% endblock %}

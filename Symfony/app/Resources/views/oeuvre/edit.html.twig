@@ -1,0 +1,896 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    {% stylesheets 'css/fileinput.min.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {{ form_start(edit_form) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Modification d'une oeuvre
+        </div>
+        <div id="contnewOeuv" class="container">
+            {# Selection de l'artiste et Etat de l'oeuvre #}
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="col-md-1 form-group">
+                        {# Génération du label #}
+                        {{ form_label(edit_form.nom, "Nom", {'label_attr': {'class': 'control-label ajust'}})}}
+                    </div>
+                    <div class="col-md-5 form-group">
+                        {# Génération de l'input #}
+                        {{ form_widget(edit_form.nom, {'attr': {'class': 'form-control ajust'}}) }}
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <label for="Art" class="control-label ajust">Artiste</label>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        {# Génération de l'input #}
+                        {{ form_widget(edit_form.artiste, {'attr': {'class': 'col-md-2 form-control ajust'}}) }}
+                    </div>
+                {# Liens multimedia existants #}
+                {% if edit_form.multimedias.0 is defined %}
+                    <script>
+                        $(document).ready(function(){
+                             //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+                            var $container2 = $('div#oeuvre_multimedias');
+
+                            $('#addmulti').append($container2);
+
+                            var $addLink2 =$('<a type="button" id="add_multimedia" title="Ajouter un nouveau lien" class="glyphicon glyphicon-retweet vert2"></a>');
+
+                            $container2.append($addLink2);
+
+                            // On commence le compteur de champs
+                            var index2 = 0;
+
+                            // Tant que les champs existent on génère les champs pour afficher les valeurs
+                            while ($('#oeuvre_multimedias_'+index2).length > 0) {
+                                
+                                // On récupère le lien de suppression
+                                $deleteLink2 = $('<a type="button" title="Supprimer le lien" name="'+index2+'" class="glyphicon glyphicon-scissors red2"></a>');
+                                // On désactive le label de l'indice de collection
+                                $('label.required:contains('+index2+')').css('display','none');
+
+                                // On récupère le groupe de champs dans son div
+                                var enfant2  = $('#oeuvre_multimedias_'+index2).children();
+
+                                // On en extrait les balises descendantes
+                                var descendant2 = enfant2.find("*");
+
+                                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                                $('.champsnom').append(descendant2[0]);
+                                $('.champsmulti').append(descendant2[1]);
+                                $('.deplacemulti').append($deleteLink2);
+
+                                // Champs nom
+                                $('[id="oeuvre_multimedias_'+index2+'_nom"]').attr({
+                                    class: 'form-control ajust multi',
+                                    placeholder: 'Nom du lien....'
+                                });
+                                // Champs lien
+                                $('[id="oeuvre_multimedias_'+index2+'_lien"]').attr({
+                                    class: 'form-control ajust linkshow',
+                                    placeholder: 'Ajouter un lien...'
+                                });
+
+                                // Quand on colle un lien dans le champs on affiche sa miniature
+                                $('.linkshow').attr('onchange','myImageFunction(this)');
+
+                                // On incrémente après chaque disposition de champs
+                                index2++;
+                            }
+
+                            // On récupère le numero du dernier lien chargé
+                            var position = $('.linkshow').length - 1;
+                            // On récupère sa valeur
+                            var valeur = $('#oeuvre_multimedias_'+position+'_lien').val();
+                            // On exécute la fonction pour afficher la miniature
+                            myImageFunction(valeur);
+
+                            // Quand on clique pour supprimer un numéro
+                            $('a.red2').click(function(e){
+
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+
+                                // On supprime les champs un à un
+                                // Champs nom
+                                $('[id="oeuvre_multimedias_'+num+'_nom"]').remove();
+                                // Champs lien
+                                $('[id="oeuvre_multimedias_'+num+'_lien"]').remove();
+                                // Lien button delete
+                                $(this).remove();
+
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                            });
+
+                            //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+                            $addLink2.click(function(e) {
+                                addLienMulti($container2);
+                                e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                                return false;
+                            });
+
+                            //La function qui ajoute un formulaire de lien
+                            function addLienMulti($container) {
+                                // Dans le contenu de l'attribut "Data-prototype", on remplace
+                                // le texte "__name__label__" qu'il contient par le label du champ
+
+                                // le texte "__name__" qu'il contient par le numro du champ
+                                var $prototype2 = $($container.attr('data-prototype').replace(/__name__label_/g, 'Lien n°' + (index2+1)).replace(/__name__/g, index2+'1'));
+
+                                $newprototype2 = $($prototype2);
+
+                                var descendant2 = $newprototype2.find('*');
+
+                                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                                $('.champsnom').append(descendant2[3]);
+                                $('.champsmulti').append(descendant2[5]);
+
+                                // Champs nom
+                                $('[id="oeuvre_multimedias_'+index2+'1_nom"]').attr({
+                                    class: 'form-control ajust multi',
+                                    placeholder: 'Nom du lien....'
+                                });
+                                // Champs lien
+                                $('[id="oeuvre_multimedias_'+index2+'1_lien"]').attr({
+                                    class: 'form-control ajust linkshow',
+                                    placeholder: 'Ajouter un lien...'
+                                });
+
+                                // Quand on colle un lien dans le champs on affiche sa miniature
+                                $('.linkshow').attr('onchange','myImageFunction(this)');
+
+                                // On ajoute au prototype un lien pour pouvoir supprimer le lien
+                                addDeleteLienMulti($('.deplacemulti'));
+
+                                //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                                index2++;
+                            }
+                            //la fonction qui ajoute un lien de suppression d'un text
+                            function addDeleteLienMulti($prototype) {
+                                //création du lien 
+                                $deleteLink2 = $('<a type="button" title="Supprimer le lien" name="'+index2+'1" class="glyphicon glyphicon-scissors red2"></a>');
+
+                                //Ajout du lien
+                                $prototype.append($deleteLink2);
+
+                                //Ajout du listener sur le clic du lien
+                                $deleteLink2.click(function(e) {
+
+                                    // On récupère l'index du champs à supprimer
+                                    var num2 = $(this).attr('name');
+                                    // On supprime les champs un à un
+                                    // Champs nom
+                                    $('[id="oeuvre_multimedias_'+num2+'_nom"]').remove();
+                                    // Champs lien
+                                    $('[id="oeuvre_multimedias_'+num2+'_lien"]').remove();
+                                    $(this).remove();
+                                    
+                                    e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                    index2--;
+                                    return false;
+                                });
+                            }
+
+                        });
+                    </script>
+                    <div id="addmulti" class="form-group">
+                        <div class="col-md-4 champsnom"></div>
+                        <div class="col-md-6 champsmulti"></div>
+                        <div class="col-md-1 deplacemulti"></div>   
+                    </div>
+                {# Liens multimedia non existants #}
+                {% else %}
+                    <script>
+                    $(document).ready(function(){
+                         //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+                        var $container2 = $('div#oeuvre_multimedias');
+
+                        $('#addmulti').append($container2);
+
+                        //On ajoute un lien pour ajouter un nouveau lien
+                        var $addLink2 =$('<a type="button" id="add_multimedia" title="Ajouter un nouveau lien" class="glyphicon glyphicon-retweet vert2"></a>');
+                        $container2.append($addLink2);
+
+                        //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+                        $addLink2.click(function(e) {
+                            addLienMulti($container2);
+                            e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                            return false;
+                        });
+
+                        //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+                        var index2 = $container2.find(':input').length;
+                        //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+
+                        if (index2==0) {
+                            addLienMulti($container2);
+                        } else {
+                            //Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+                            $container2.children('div').each(function () {
+                                addDeleteLienMulti($(this));
+                            });
+                        }
+
+                        //La function qui ajoute un formulaire de lien
+                        function addLienMulti($container) {
+                            // Dans le contenu de l'attribut "Data-prototype", on remplace
+
+                            // le texte "__name__label__" qu'il contient par le label du champ
+                            // le texte "__name__" qu'il contient par le numro du champ
+                            var $prototype2 = $($container.attr('data-prototype').replace(/__name__label_/g, 'Lien n°' + (index2+1)).replace(/__name__/g, index2));
+
+                            $newprototype2 = $($prototype2);
+
+                            var descendant2 = $newprototype2.find('*');
+
+                            // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                            $('.champsnom').append(descendant2[3]);
+                            $('.champsmulti').append(descendant2[5]);
+
+                            // Champs nom
+                            $('[id="oeuvre_multimedias_'+index2+'_nom"]').attr({
+                                class: 'form-control ajust multi',
+                                placeholder: 'Nom du lien....'
+                            });
+                            // Champs lien
+                            $('[id="oeuvre_multimedias_'+index2+'_lien"]').attr({
+                                class: 'form-control ajust linkshow',
+                                placeholder: 'Ajouter un lien...'
+                            });
+
+                            // Quand on colle un lien dans le champs on affiche sa miniature
+                            $('.linkshow').attr('onchange','myImageFunction(this)');
+
+                            // On ajoute au prototype un lien pour pouvoir supprimer le lien
+                            addDeleteLienMulti($('.deplacemulti'));
+
+                            //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                            index2++;
+                        }
+                        //la fonction qui ajoute un lien de suppression d'un text
+                        function addDeleteLienMulti($prototype2) {
+                            //création du lien 
+                            $deleteLink2 = $('<a type="button" title="Supprimer le lien" name="'+index2+'" class="glyphicon glyphicon-scissors red2"></a>');
+
+                            //Ajout du lien
+                            $prototype2.append($deleteLink2);
+
+                            //Ajout du listener sur le clic du lien
+                            $deleteLink2.click(function(e) {
+
+                                // On récupère l'index du champs à supprimer
+                                var num2 = $(this).attr('name');
+                                // On supprime les champs un à un
+                                 // Champs nom
+                                $('[id="oeuvre_multimedias_'+num2+'_nom"]').remove();
+                                // Champs lien
+                                $('[id="oeuvre_multimedias_'+num2+'_lien"]').remove();
+                                $(this).remove();
+                                
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                index2--;
+                                return false;
+                            });
+                        }
+                    });
+                    </script>
+                    <div id="addmulti" class="form-group">
+                        <div class="col-md-4 champsnom"></div>
+                        <div class="col-md-6 champsmulti"></div>
+                        <div class="col-md-1 deplacemulti"></div>   
+                    </div>
+                {% endif %}
+                {# Fin de la condition multimédia #}
+                </div>
+                <div id="previsu" class="col-md-2">
+                {% image 'images/specimen.png' filter='jpegoptim' %}
+                    <img class="specimen img-responsive" title="Image Oeuvre" src="{{ asset_url }}" width="141px" height="141px"/>
+                {% endimage %}
+                </div>
+
+                {# Description existantes #}
+                {% if edit_form.texteoeuvres.0 is defined %}
+                    <script>
+                        $(document).ready(function(){
+                             //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+                            var $container = $('div#oeuvre_texteoeuvres');
+
+                            $('#adddes').append($container);
+
+                            var $addLink =$('<a type="button" id="add_textoeuvre" title="Ajouter un nouveau lien" class="glyphicon glyphicon-plus vert"></a>');
+
+                            $container.append($addLink);
+
+                            // On commence le compteur de champs
+                            var index = 0;
+
+                            // Tant que les champs existent on génère les champs pour afficher les valeurs
+                            while ($('#oeuvre_texteoeuvres_'+index).length > 0) {
+                                
+                                // On récupère le lien de suppression
+                                $deleteLink = $('<a type="button" name="'+index+'" class="glyphicon glyphicon-minus red"></a>');
+                                // On désactive le label de l'indice de collection
+                                $('label.required:contains('+index+')').css('display','none');
+
+                                // On récupère le groupe de champs dans son div
+                                var enfant  = $('#oeuvre_texteoeuvres_'+index).children();
+
+                                // On en extrait les balises descendantes
+                                var descendant = enfant.find("*");
+
+                                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                                $('.labeldes').append(descendant[0]);
+                                $('.champsdes').append(descendant[1]);
+                                $('.labellang').append(descendant[2]);
+                                $('.champslang').append(descendant[3]);
+
+                                // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                                addDeleteLink($('.deplace'));
+
+                                // On incrémente après chaque disposition de champs
+                                index++;
+                            }
+
+                            // Quand on clique pour supprimer un texte
+                            $('a.red').click(function(e){
+
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+                                // On supprime les champs un à un
+                                // Label descript
+                                $('[for="oeuvre_texteoeuvres_'+num+'_description"]').remove();
+                                // Champs descript
+                                $('[id="oeuvre_texteoeuvres_'+num+'_description"]').remove();
+                                 // Label langue
+                                $('[for="oeuvre_texteoeuvres_'+num+'_langue"]').remove();
+                                // Champs langue
+                                $('[id="oeuvre_texteoeuvres_'+num+'_langue"]').remove();
+                                $(this).remove();
+
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                            });
+
+                            //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+                            $addLink.click(function(e) {
+                                if(index < 5)
+                                addTexteOeuvre($container);
+                                e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                                return false;
+                            });
+
+                            //La function qui ajoute un formulaire textexposition
+                            function addTexteOeuvre($Container) {
+                                // Dans le contenu de l'attribut "Data-prototype", on remplace
+
+                                // le texte "__name__label__" qu'il contient par le label du champ
+
+                                // le texte "__name__" qu'il contient par le numro du champ
+                                var $prototype = $($container.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index+1)).replace(/__name__/g, index));
+
+                                $newprototype = $($prototype);
+
+                                var descendant = $newprototype.find('*');
+
+                                
+                                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                                $('.labeldes').append(descendant[3]);
+                                $('.champsdes').append(descendant[4]);
+                                $('.labellang').append(descendant[6]);
+                                $('.champslang').append(descendant[7]);
+
+                                // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                                addDeleteLink($('.deplace'));
+
+                                //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                                index++;
+                            }
+                            //la fonction qui ajoute un lien de suppression d'un text
+                            function addDeleteLink($prototype) {
+                                //création du lien 
+                                $deleteLink = $('<a type="button" name="'+index+'" class="glyphicon glyphicon-minus red"></a>');
+
+                                //Ajout du lien
+                                $prototype.append($deleteLink);
+
+                                //Ajout du listener sur le clic du lien
+                                $deleteLink.click(function(e) {
+
+                                    // On récupère l'index du champs à supprimer
+                                    var num = $(this).attr('name');
+                                    // On supprime les champs un à un
+                                    // Label descript
+                                    $('[for="oeuvre_texteoeuvres_'+num+'_description"]').remove();
+                                    // Champs descript
+                                    $('[id="oeuvre_texteoeuvres_'+num+'_description"]').remove();
+                                     // Label langue
+                                    $('[for="oeuvre_texteoeuvres_'+num+'_langue"]').remove();
+                                    // Champs langue
+                                    $('[id="oeuvre_texteoeuvres_'+num+'_langue"]').remove();
+                                    $(this).remove();
+                                    
+                                    e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                    index--;
+                                    return false;
+                                });
+                            } 
+
+                        });
+                    </script>
+                    <div id="adddes" class="col-md-12 form-group">
+                        <div class="col-md-1 fixlabel labeldes"></div>
+                        <div class="col-md-3 champsdes"></div>
+                    <div class="fixlang">
+                        <div class="col-md-1 labellang"></div>
+                        <div class="col-md-2 champslang"></div>
+                        <div class="col-md-1 deplace"></div>
+                    </div>
+                {# Description non existantes #}        
+                {% else %}
+                    <script>
+                    $(document).ready(function(){
+
+                        // On ajoute le choix d'un nouvel artiste
+                        $('#oeuvre_artiste').append('<option id="newart" value="new">Nouvel artiste</option>');
+                        // Quand on clique sur le choix précédent on est redirigé vers le formulaire
+                        $('#oeuvre_artiste').attr('onclick','myFunction()');
+
+                        //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+                        var $container = $('div#oeuvre_texteoeuvres');
+
+                        $('#adddes').append($container);
+                        
+                        //On ajoute un lien pour ajouter un nouveau textexposition
+                        var $addLink =$('<a type="button" id="add_textoeuvre" class="glyphicon glyphicon-plus vert"></a>');
+                        $container.append($addLink);
+
+                        //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+                        $addLink.click(function(e) {
+                            addTexteOeuvre($container);
+                            e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                            return false;
+                        });
+
+                        //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+                        var index = $container.find(':input').length;
+                       
+                        //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+                        if (index==0) {
+                            addTexteOeuvre($container);
+                        } else {
+                            //Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+                            $container.children('div').each(function () {
+                                addDeleteLink($(this));
+                            });
+                        }
+
+                        //La function qui ajoute un formulaire textexposition
+                        function addTexteOeuvre($Container) {
+                            // Dans le contenu de l'attribut "Data-prototype", on remplace
+
+                            // le texte "__name__label__" qu'il contient par le label du champ
+
+                            // le texte "__name__" qu'il contient par le numro du champ
+                            var $prototype = $($container.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index+1)).replace(/__name__/g, index));
+
+                            $newprototype = $($prototype);
+
+                            var descendant = $newprototype.find('*');
+
+                            
+                            // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                            $('.labeldes').append(descendant[3]);
+                            $('.champsdes').append(descendant[4]);
+                            $('.labellang').append(descendant[6]);
+                            $('.champslang').append(descendant[7]);
+
+                            // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                            addDeleteLink($('.deplace'));
+
+                            //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                            index++;
+                        }
+                        //la fonction qui ajoute un lien de suppression d'un text
+                        function addDeleteLink($prototype) {
+                            //création du lien 
+                            $deleteLink = $('<a type="button" name="'+index+'" class="glyphicon glyphicon-minus red"></a>');
+
+                            //Ajout du lien
+                            $prototype.append($deleteLink);
+
+                            //Ajout du listener sur le clic du lien
+                            $deleteLink.click(function(e) {
+
+                                // On récupère l'index du champs à supprimer
+                                var num = $(this).attr('name');
+                                // On supprime les champs un à un
+                                // Label descript
+                                $('[for="oeuvre_texteoeuvres_'+num+'_description"]').remove();
+                                // Champs descript
+                                $('[id="oeuvre_texteoeuvres_'+num+'_description"]').remove();
+                                 // Label langue
+                                $('[for="oeuvre_texteoeuvres_'+num+'_langue"]').remove();
+                                // Champs langue
+                                $('[id="oeuvre_texteoeuvres_'+num+'_langue"]').remove();
+                                $(this).remove();
+                                
+                                e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                                index--;
+                                return false;
+                            });
+                        } 
+                    });
+                    </script>
+                    <div id="adddes" class="col-md-12 form-group">
+                        <div class="col-md-1 fixlabel labeldes"></div>
+                        <div class="col-md-3 champsdes"></div>
+                    <div class="fixlang">
+                        <div class="col-md-1 labellang"></div>
+                        <div class="col-md-2 champslang"></div>
+                        <div class="col-md-1 deplace"></div>
+                    </div>        
+                {% endif %}
+                {# Fin de la condition textes de l'oeuvre #}
+                {% javascripts 'js/fileinput.min.js' %}
+                    <script src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+                {% javascripts 'js/bootstrap-checkbox.js' %}
+                    <script src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+                {# Gestion des formulaires de Type d'oeuvre #}
+                {% javascripts 'js/jquery.datetimepicker.full.js' %}
+                    <script type="text/javascript" src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+                </div>
+                <div class="container">
+                {# Tableau existant #}
+                {% if edit_form.vars.value.typeoeuvre.discr == "Tableau" %}
+
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.tableau.titre, "Titre", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-4 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.tableau.titre, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.largeur, "Largeur", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.largeur, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.hauteur, "Hauteur", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.hauteur, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.tableau.dateCreation, "Date de création", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-5 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.tableau.dateCreation, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                </div>
+
+                {# Statut existant #}
+                {% elseif edit_form.vars.value.typeoeuvre.discr == "Statut" %}
+                
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.statut.titre, "Titre", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-4 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.statut.titre, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.hauteur, "Hauteur", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.hauteur, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.largeur, "Largeur", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.largeur, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 col-md-offset-5 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.longueur, "Longueur", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.longueur, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.profondeur, "Profondeur", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.profondeur, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.statut.dateCreation, "Date de création", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-5 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.statut.dateCreation, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                </div>
+
+                {# Multimedia existant #}
+                {% elseif edit_form.vars.value.typeoeuvre.discr == "Multimédia" %}
+                
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.multi.titre, "Titre", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-6 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.multi.titre, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.duree, "Durée", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-3 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.duree, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.stockage, "Stockage", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.stockage, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.video, "Video", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.video, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-1 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.fichier, "Fichier", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-3 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.fichier, {'attr': {'class': 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-9 form-group">
+                {# Génération du label #}
+                {{ form_label(editTypeForm.multi.dateCreation, "Date de création", {'label_attr': {'class': 'control-label ajust'}})}}
+                </div>
+                <div class="col-md-2 form-group">
+                {# Génération de l'input #}
+                {{ form_widget(editTypeForm.multi.dateCreation, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                </div>
+               
+                {% endif %}
+                {% javascripts 'js/fileinput.min.js' %}
+                    <script src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+                <script>
+                    $('#oeuvre_image').attr('id', 'input-id');
+                    $('#input-id').attr('data-preview-file-type', 'text');
+                    $('#input-id').fileinput();
+                </script>
+                <div class="col-md-4 form-group">
+                    {# Génération de l'input #}
+                    {{ form_widget(edit_form.image, {'attr': {'class': 'file'}}) }}
+                </div>
+                {% javascripts 'js/fr.js' %}
+                    <script src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+                <script>
+                $(document).ready(function(){
+
+                    // On met en forme le sélecteur de fichier de l'oeuvre
+                    $('#multimedia_type_fichier').attr('id', 'input-id');
+                    $('#input-id').attr('class', 'file');
+                    $('#input-id').attr('data-preview-file-type', 'text');
+                    $('#input-id').fileinput();
+                    $('input[name="oeuvre[image]"]').parent().find('.hidden-xs').html('Select...');
+                    // On met en forme le sélecteur de fichier du contenu additionnel de l'oeuvre
+                    $('input[name="multimedia_type[fichier]"]').parent().find('.hidden-xs').html('Select...');
+                    $('#oeuvre_image').css('display', 'none');
+
+                    $('#multimedia_type_stockage').attr('disabled', 'disabled');
+                    $('#multimedia_type_video').css('display', 'none');
+                    $('#input-id').css('display', 'none');
+
+                    // On désactive la validation formulaire du navigateur 
+                    $('form').attr('novalidate', '');
+                    
+                    // Calendrier
+                    $.datetimepicker.setLocale('fr');
+                    $('.calendar').datetimepicker({
+                        dayOfWeekStart : 1,
+                        lang:'fr',
+                        format:'d/m/Y H:i',
+                    }); 
+                });
+                </script>
+                </div>
+                <div id="newoeuvfond" class="col-md-12"> 
+                    <div class="col-md-4">
+                        {# Si la génération du flashcode a déjà été faite #}
+                        {% if edit_form.genFlashcode.vars.checked %}
+                            {# On ne l'affiche pas #}
+                            <script>
+                                $(document).ready(function(){
+                                    // On cache le bouton Flashcode
+                                    $('[for="oeuvre_genFlashcode"]').hide();
+                                    $('#oeuvre_genFlashcode').hide();
+                                    // On met en forme le bouton Video
+                                    $('#multimedia_type_video:checkbox').checkboxpicker();
+                                });   
+                            </script>
+                        {% else %}
+                            <label for="Art" class="control-label ajust">Générer un FlashCode</label>
+                            {# Génération de l'input #}
+                            {{ form_widget(edit_form.genFlashcode, {'attr': {'id': 'input-1'}}) }}
+                            <script>
+                                $(document).ready(function(){
+
+                                    // On met en forme le bouton Video
+                                    $(':checkbox').checkboxpicker();
+                                    // On met en forme le bouton Flashcode
+                                    $('#input-1').checkboxpicker({
+                                      html: true,
+                                      offLabel: '<span class="glyphicon glyphicon-remove">',
+                                      onLabel: '<span class="glyphicon glyphicon-ok">'
+                                    });
+                                });
+                            </script>
+                        {% endif %}
+                            <script>
+                                $(document).ready(function(){
+
+                                    // Test du nom de l'oeuvre
+                                    $('#oeuvre_nom').change(function(event){
+
+                                        var nomOeuv = $(this).val();
+
+                                        if (nomOeuv != '') {
+
+                                            $.ajax({
+                                                url: "{{ path('test_unit_oeuvre') }}", // On renseigne l'url TWIG
+                                                method: "post",
+                                                data: {nomOeuv: nomOeuv,
+                                                       editMode: true,
+                                                       idOeuv: {{ oeuvre.id }} } // On passe le nom de l'oeuvre et le mode dans la requête
+                                            }).done(function(msg){
+                                                // Si l'oeuvre existe déjà
+                                                if(msg.data == "true"){
+                                                    alert("Cette oeuvre existe déjà !");
+                                                    $('#newartval').hide('slow/400/fast');
+                                                }else{
+                                                    $('#newartval').show('slow/400/fast');
+                                                }
+                                            });
+                                        }
+
+                                    });
+
+                                    // Test avant validation
+                                    $('#newartval').click(function(event) {
+
+                                        // On vérifie la diversité des langues
+                                        // On récupère le nombre de langue afficher
+                                        var nbLangue = $('.champslang').children('*').length;
+
+                                        if(nbLangue > 1){
+
+                                            tableLang = new Array();
+                                            // Puis on boucle dessus
+                                            for(var a = 0; a < nbLangue; a++){
+                                                tableLang[a] = $('#oeuvre_texteoeuvres_'+a+'_langue option:selected').text();
+                                            }
+                                            // On trie par ordre alphabétique
+                                            tableLang.sort();
+                                            // Puis on reboucle en comparant chaque paires ordonnées
+                                            var ordo = false;
+                                            var nextTable = "";
+
+                                            for(var b = 0; b < nbLangue; b++){
+                                                // On vérifie si l'élément en cours est strictement égal au précédent
+                                                if(tableLang[b] == nextTable){
+                                                    ordo = true;
+                                                }
+                                                // On définit le précédent suivant
+                                                nextTable = tableLang[b];
+                                            }
+                                            
+                                            if(ordo){
+                                                // On stoppe le comportement par défaut
+                                                event.preventDefault();
+                                                alert("Vous ne pouvez pas enregistrer plusieurs traductions avec la même langue !");
+                                                return;
+                                            }else{
+                                               // Suppression de l'objet event
+                                                delete event;
+                                            }
+                                        }
+                                    });
+
+
+                                    // Si on choisis une date on agrandit la page
+                                    $('#tableau_tableau_dateCreation').click(function(){
+                                        $('#contnewOeuv').css('height','53em');
+                                    });
+
+                                    // Si on ressort du champs
+                                    $('#tableau_tableau_dateCreation').change(function(){
+                                        $('#contnewOeuv').css('height','');
+                                    });
+                                });
+                            </script>
+                    </div>
+                    <div class="col-md-4">
+                        <input id="newartval" type="submit" value="Enregistrer" />
+                        <a id="newartret" href="{{ path('oeuvre_index') }}">Retour à la liste</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(edit_form) }}
+{% endblock %}
+{% block javascripts %}
+    <script>
+        // Fonction afin de rediriger sur la page new artist
+        function myFunction() {
+
+            if($('#oeuvre_artiste').val() == "new"){
+                document.location.href="{{ path('artiste_new') }}";
+            }
+        }
+
+
+        // Fonction pour afficher une miniature du lien
+        function myImageFunction(valeur) {
+            // On récupère la valeur à partir de l'id du champs sélectionné
+            var val = $("#"+valeur.id).val();
+            
+            if(val != "" && val != undefined){
+                // On retire l'image par défaut
+                $('.specimen').remove();
+                // On créé une nouvelle image
+                $img = document.createElement('img');
+                $img.setAttribute('class','specimen img-responsive');
+                // $img.src = "http://www.robothumb.com/src/?url="+val+"&size=560x420.png";
+                $img.src = "http://api.screenshotmachine.com/?key=0d99fd&size=S&format=PNG&url="+val;
+                $('#previsu').append($img);
+            }else{
+                // On retire l'image par défaut
+                $('.specimen').remove();
+                // On créé une nouvelle image
+                $img = document.createElement('img');
+                $img.setAttribute('class','specimen img-responsive');
+                // $img.src = "http://www.robothumb.com/src/?url="+val+"&size=560x420.png";
+                $img.src = "http://api.screenshotmachine.com/?key=0d99fd&size=S&format=PNG&url="+valeur;
+                $('#previsu').append($img);
+            }  
+        }
+    </script>
+{% endblock %}

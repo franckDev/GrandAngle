@@ -1,0 +1,20 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block stylesheet %}
+	{% stylesheets 'css/stylerequest.css' %}
+	    <link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block fos_user_content %}
+	<div id="confirm">
+	    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+	    {% if targetUrl %}
+	    <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+	    {% endif %}
+    </div>
+{% endblock fos_user_content %}
+{% block javascript %}
+{% endblock javascript %}

@@ -1,0 +1,132 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+{{ form_start(form) }}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Création d'un artiste
+    </div>
+    <div class="row">
+        <div id="formartnew" class="col-md-12 col-md-offset-3">
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.nom, "Nom", {'label_attr': {'class' : 'control-label ajust'}}) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_widget(form.nom, {'attr': {'class' : 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-3 error">
+                    {{ form_errors(form.nom) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.prenom, "Prénom", {'label_attr': {'class' : 'control-label ajust'}}) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_widget(form.prenom, {'attr': {'class' : 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-3 error">
+                    {{ form_errors(form.prenom) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.nationalite, "Nationalité", {'label_attr': {'class' : 'control-label ajust'}}) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_widget(form.nationalite, {'attr': {'class' : 'form-control ajust'}}) }}
+                </div>
+                <div class="col-md-3 error">
+                    {{ form_errors(form.nationalite) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.dateNaissance, "Date de naissance", {'label_attr': {'class' : 'control-label ajust'}}) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_widget(form.dateNaissance, {'attr': {'class' : 'form-control ajust calendar'}}) }}
+                </div>
+                <div class="col-md-3 error">
+                    {{ form_errors(form.dateNaissance) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.dateMort, "Date de mort", {'label_attr': {'class' : 'control-label ajust'}}) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_widget(form.dateMort, {'attr': {'class' : 'form-control ajust calendar'}}) }}
+                </div>
+                <div class="col-md-3 error">
+                    {{ form_errors(form.dateMort) }}
+                </div>
+                {% if find is defined %}
+                    <script>
+                        var message = "{{ find }} existe déjà !";
+                        alert(message);
+                    </script>
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-md-offset-2">
+                    <input id="newartval" type="submit" value="Enregistrer" />
+                    <a id="newartret" href="{{ path('oeuvre_new') }}">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts 'js/jquery.datetimepicker.full.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Affichage date picker
+            $.datetimepicker.setLocale('fr');
+            $('.calendar').datetimepicker({
+                dayOfWeekStart : 1,
+                lang:'fr',
+                format:'d/m/Y H:i',
+            });
+
+            // Test du nom et prenom de l'artiste
+            $('#artiste_prenom').change(function(event){
+               controleArtiste();
+            });
+
+            $('#artiste_nom').change(function(event){
+               controleArtiste();
+            });
+
+            function controleArtiste(){
+
+                var nomArtist = $('#artiste_nom').val();
+                var prenArtist = $('#artiste_prenom').val();
+
+                if (nomArtist != '' && prenArtist != '') {
+
+                    $.ajax({
+                        url: "{{ path('test_unit_artiste') }}", // On renseigne l'url TWIG
+                        method: "post",
+                        data: {nomArtist: nomArtist,
+                               prenArtist: prenArtist} // On passe le nom de l'artiste et le prenom dans la requête
+                    }).done(function(msg){
+                        // Si l'artiste existe déjà
+                        if(msg.data == "true"){
+                            alert("Cet artiste existe déjà !");
+                            $('#newartval').hide();
+                        }else{
+                           $('#newartval').show();
+                        }
+                    });
+                }
+            }
+
+        });
+    </script>
+{% endblock %}

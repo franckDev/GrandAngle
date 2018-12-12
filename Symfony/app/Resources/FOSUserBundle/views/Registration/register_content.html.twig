@@ -1,0 +1,99 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+			{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'},'attr': {'id': 'formRequest'}}) }}
+						{# Erreurs générales du formulaire #}
+                        {# {{ form_errors(form) }} #}
+			<div class="form-group">
+	    		<label class="col-md-4 col-sm-4 control-label">Nom</label>
+		        <div class="col-md-8 col-sm-8">
+		            {{ form_widget(form.firstname, {'attr': {'class': 'form-control ajust'}}) }}
+		        </div>
+		    </div>
+			<div class="form-group">
+				<label class="col-md-4 col-sm-4 control-label">Prénom</label>
+		        <div class="col-md-8 col-sm-8">
+		           {{ form_widget(form.lastname, {'attr': {'class': 'form-control ajust'}}) }}
+		        </div>
+		    </div>    
+			<div class="form-group">
+	    		<label class="col-md-4 col-sm-4 control-label">{{ 'security.login.username'|trans }}</label>
+		        <div class="col-md-8 col-sm-8">
+		            {{ form_widget(form.username, {'attr': {'class': 'form-control ajust'}}) }}
+		        </div>
+		    </div>
+			<div class="form-group">
+				<label class="col-md-4 col-sm-4 control-label">{{ 'form.email'|trans }}</label>
+		        <div class="col-md-8 col-sm-8">
+		           {{ form_widget(form.email, {'attr': {'class': 'form-control ajust'}}) }}
+		        </div>
+		    </div>
+		 	<div class="form-group">
+		 		<label class="col-md-4 col-sm-4 control-label">{{ 'form.password'|trans }}</label>
+		        <div class="col-md-8 col-sm-8">
+		           {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control ajust'}}) }}
+		        </div>
+		    </div>
+	     	<div class="form-group">
+	     		<label class="col-md-4 col-sm-4 control-label">{{ 'form.password_confirmation'|trans }}</label>
+		        <div class="col-md-8 col-sm-8">
+		           {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control ajust'}}) }}
+	           	</div>
+		    </div>
+		    <div class="form-group">
+				{# Génération du label #}
+	            {{ form_label(form.role, "Role", {'label_attr': {'class': 'col-md-4 col-sm-4 control-label ajust'}})}}
+	            
+	            {# Affichage des erreurs pour ce champs précis #}
+	            {{ form_errors(form.role) }}
+
+	            <div class="col-md-8 col-sm-8">
+	                {# Génération du select #}
+	                {{ form_widget(form.role, {'attr': {'class': 'form-control ajust'}}) }}
+	            </div>
+            </div>
+            <div class="col-md-2 col-sm-4">
+                <label id="bloc" class="blocdebnew">Bloquer</label>
+                <label id="debloc" class="blocdebnew">Debloquer</label> 
+            </div>
+            <div class="col-md-2 col-sm-2">
+                 {{ form_widget(form.locked, {'attr': {'class': 'editlocknew'}}) }}
+            </div>
+			<div class="col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5">
+		        <input class="btn btn-default" type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+		    </div>
+		    <span id="red">
+		    	{{ form_errors(form.username)}}
+		    </span>
+         	
+			{{ form_end(form) }}
+  		</div>
+    </div>
+</div>
+{% block javascripts %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	    <!-- Latest compiled and minified JavaScript -->
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+
+        // Gestion du checked
+        $('.editlocknew').click(function(){
+            if ($( "input:checked" ).val()==1) {
+                $("#debloc").css('display','block');
+                $("#bloc").css('display','none');
+            }else{
+                $("#debloc").css('display','none');
+                $("#bloc").css('display','block');
+            }
+        });
+
+        // Génération d'un nouveau groupe de champs tel
+        $('#newlien').click(function(){
+            alert("Louper !!");
+        });
+       
+    </script>
+{% endblock %}

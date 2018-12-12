@@ -1,0 +1,98 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Liste d'exposition
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date et heure début</th>
+                    <th>Date et heure fin</th>
+                    <th>Actions</th>
+                    <th>Imprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for exposition in expositions %}
+                <tr>
+                    <td>{{ exposition.nomExposition }}</td>
+                    <td>{% if exposition.dateHeureDebutExposition %}{{ exposition.dateHeureDebutExposition|date('d M Y H:i') }}{% endif %}</td>
+                    <td>{% if exposition.dateHeureFinExposition %}{{ exposition.dateHeureFinExposition|date('d M Y H:i') }}{% endif %}</td>
+                    <td>
+                        <a id="searchindex" title="Afficher" class="glyphicon glyphicon-search" href="{{ path('exposition_show', { 'id': exposition.id }) }}"></a>
+                        <a id="editindex" title="Modifier" class="glyphicon glyphicon-pencil" href="{{ path('exposition_edit', { 'id': exposition.id }) }}"></a>
+                        <a id="delindex" title="Supprimer" name="{{ exposition.id }}" class="glyphicon glyphicon-trash" href="{{ path('exposition_delete', { 'id': exposition.id }) }}"></a>
+                    </td>
+                    <td>
+                        <a id="printindex" title="Imprimer la liste des oeuvres" class="glyphicon glyphicon-print" name="{{ exposition.id }}" href="{{ path('exposition_print', { 'id': exposition.id }) }}"></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <ul class="nav nav-pills">
+            <li role="presentation">
+                <a id="expo" title="Nouvelle Exposition" href="{{ path('exposition_new') }}">Nouveau</a>
+            </li>
+        </ul>
+        <div class="navigation">
+            {{ knp_pagination_render(expositions) }}
+        </div>
+        <script type="text/javascript">
+
+            // Suppression d'une exposition
+            $('a#delindex').click(function(event) {
+                
+                // On bloque le comportement du bouton
+                event.preventDefault();
+
+                // Message de confirmation
+                var test = confirm("Etes vous sur de vouloir supprimer cette exposition ?");
+
+                if(test){
+                    // On récupère l'id de l'oeuvre
+                    var id = $ (this).attr('name');
+                  
+                    $.ajax({
+                        url: "{{ path('exposition_delete') }}",  // On renseigne l'url TWIG
+                        method: "post",
+                        data: {id: id} // On passe l'id dans la requête
+                    }).done(function(msg){
+                        alert(msg.msg);
+                        // Suppression de la ligne en cause
+                        $('a[name="'+id+'"]').parent().parent().hide();
+                    }); 
+                }
+               
+            });
+
+            // On vérifie avant le print si il y a des oeuvres liées
+            $('a#printindex').click(function(event) {
+                    
+                    // On bloque le comportement du bouton
+                    event.preventDefault();
+
+                    // On récupère l'id de l'expo
+                    var id = $ (this).attr('name');
+                    var path = $(this).attr('href');
+                  
+                    $.ajax({
+                        url: "{{ path('test_expo_oeuvre') }}",  // On renseigne l'url TWIG
+                        method: "post",
+                        data: {id: id} // On passe l'id dans la requête
+                    }).done(function(msg){
+                        
+                        if(msg.data == 'false'){
+                           window.open(path);
+                        }else{
+                           alert("Vous ne pouvez pas imprimer la liste des Oeuvres car il n'y en a pas !");
+                           return;
+                        }
+                    }); 
+            });
+        </script>
+    </div>
+{% endblock %}

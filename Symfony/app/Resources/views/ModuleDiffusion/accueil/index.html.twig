@@ -1,0 +1,88 @@
+{% extends "::ModuleDiffusion/layout/layout.html.twig"%}
+
+{% block stylesheets %}
+    {% stylesheets 'css/slide/reset.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% stylesheets 'css/slide/demo.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}  
+    {% stylesheets 'css/slide/style.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    <link href='http://fonts.googleapis.com/css?family=Rochester' rel='stylesheet' type='text/css' />
+    <noscript>
+        <style>
+            .cn-images img{position: relative;display: block;border-bottom: 5px solid #d0ab47;} 
+            .cn-slideshow{height: auto;}
+        </style>
+    </noscript>
+{% endblock %}
+
+{% block body %}
+    <div class="col-md-10 col-md-offset-2 col-xs-12">
+        <script id="barTmpl" type="text/x-jquery-tmpl">
+            <div class="cn-bar">
+                <div class="cn-nav">
+                    <a href="#" class="cn-nav-prev">
+                        <span>Précédente</span>
+                        <div style="background-image:url(${prevSource});"></div>
+                    </a>
+                    <a href="#" class="cn-nav-next">
+                        <span>Suivante</span>
+                        <div style="background-image:url(${nextSource});"></div>
+                    </a>
+                </div><!--cn-nav-->
+                <div class="cn-nav-content">
+                    <div class="cn-nav-content-prev">
+                        <span>Oeuvre précédente</span>
+                        <h3>${prevTitle}</h3>
+                    </div>
+                    <div class="cn-nav-content-current">
+                        <span>Visionnage actuel</span>
+                        <h2>${currentTitle}</h2>
+                    </div>
+                    <div class="cn-nav-content-next">
+                        <span>Oeuvre suivante</span>
+                        <h3>${nextTitle}</h3>
+                    </div>
+                </div><!-- cn-nav-content -->
+            </div><!-- cn-bar -->
+        </script>
+        <h1>{% if rows is empty %} 
+                
+            {% else %}
+                {{rows.0.nomEx}}
+            {% endif %}  
+            <span></span>
+        </h1>
+        <div class="wrapper">
+            <div id="cn-slideshow" class="cn-slideshow">
+                <div class="cn-images">
+                    {% for row in rows %}
+                        <img src="{{ app.request.basepath }}/upload/{{ row.img }}" alt="image01" title="{{ row.nomOe }}" data-thumb="{{ app.request.basepath }}/upload/{{ row.img }}" style="display:block;"/>
+                    {% endfor %}
+                </div><!-- cn-images -->
+            </div><!-- cn-slideshow -->
+        </div>
+        <p id="desc">{% if rows is empty %} 
+                
+            {% else %}
+                {{rows.0.nomEx}}
+            {% endif %}  </p>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {% javascripts 'js/slide/jquery.tmpl.min.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts 'js/slide/jquery.slideshow.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(function() {
+            $('#cn-slideshow').slideshow();
+        });
+    </script>
+{% endblock %}

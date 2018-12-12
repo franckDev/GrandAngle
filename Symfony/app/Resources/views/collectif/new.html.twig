@@ -1,0 +1,68 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+{{ form_start(form, {'attr': {'id': 'formCol'}}) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Création d'un Collectif
+        </div>
+        <div class="container">
+            <div class="row">
+                <div id="lienrow" class="col-md-5 col-sm-11">
+                    <div class="form-group">
+                        {# Erreurs générales du formulaire #}
+                        {{ form_errors(form) }}
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(form.organisateur.nom, "Nom du collectif", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(form.organisateur.nom) }}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(form.organisateur.nom, {'attr': {'class': 'form-control ajust'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            {# Génération du label #}
+                            {{ form_label(form.datecreation, "Date création", {'label_attr': {'class': 'col-md-4 control-label ajust'}})}}
+                            
+                            {# Affichage des erreurs pour ce champs précis #}
+                            {{ form_errors(form.datecreation) }}
+
+                            <div class="col-md-8">
+                                {# Génération de l'input #}
+                                {{ form_widget(form.datecreation, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <input type="submit" value="Enregistrer" />
+                <a href="{{ path('exposition_new') }}">retour</a>
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts 'js/jquery.datetimepicker.full.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.datetimepicker.setLocale('fr');
+            $('.calendar').datetimepicker({
+                dayOfWeekStart : 1,
+                lang:'fr',
+                format:'d/m/Y H:i',
+            });
+        });
+    </script>
+{% endblock %}

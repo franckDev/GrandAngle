@@ -1,0 +1,47 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                always_use_default_target_path: true
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
+                default_target_path: /gestion/accueil
+                # submit the login form here
+                check_path: /login_check
+                # the user is redirected here when they need to log in
+                login_path: /gestion
+            logout:
+                path: /logout
+                target: /login
+            anonymous:   true
+
+    access_control:
+        - { path: ^/gestion/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/gestion/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/gestion/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/gestion/admin/, role: ROLE_ADMIN }
+        - { path: ^/gestion/accueil, role: ROLE_USER }
+        - { path: ^/gestion/exposition, role: ROLE_USER }
+        - { path: ^/gestion/utilisateur, role: ROLE_USER }
+        - { path: ^/gestion/oeuvre, role: ROLE_USER }
+        - { path: ^/gestion/auteur, role: ROLE_USER }
+        - { path: ^/gestion/collectif, role: ROLE_USER }
+        - { path: ^/gestion/organisateur, role: ROLE_USER }
+        - { path: ^/gestion/artiste, role: ROLE_USER }
+        - { path: ^/gestion/emplacement, role: ROLE_USER }
+        - { path: ^/gestion/accueil, role: ROLE_USER }
+        - { path: ^/gestion/statistique, role: ROLE_USER }
+        # - { allow_if: "'127.0.0.1' == request.getClientIp()" }
+

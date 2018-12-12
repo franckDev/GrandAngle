@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Impression</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	</head>
+	<body onload="window.print();">
+		<div class="col-md-8 col-md-offset-2">
+			<h1> {{expositions.0.nomE}} </h1></br>
+			<table class="table">
+				<thead>
+	                <tr>
+	                    <th>Nom de l'oeuvre</th>
+	                    <th>Position de l'oeuvre</th>
+	                    <th>Nombre de consultation</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+					{% for exposition in expositions %}
+						<tr>
+							<td>{{exposition.nomO}}</td>
+							<td>{{exposition.pos}}</td>
+							<td>{{exposition.nb}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-8 col-md-offset-4">
+            {% image 'images/position.png'  
+                filter='jpegoptim' output='/images/position.png' %}
+                <img class="img" src="{{ asset_url }}" alt="Example" width="500" heugth="250"/>
+            {% endimage %}
+        </div>
+	</body>
+</html>

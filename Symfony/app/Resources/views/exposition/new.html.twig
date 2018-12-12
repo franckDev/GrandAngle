@@ -1,0 +1,672 @@
+{% extends ':layout:layout.html.twig' %}
+
+{% block body %}
+    {% stylesheets 'css/fileinput.min.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {{ form_start(form, {'attr': {'id': 'formExpo'}}) }}
+{% spaceless %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Ajout d'une nouvelle exposition
+        </div>
+        <div id="containerExpo" class="container">
+            <div class="row">
+                <div id="lienrow" class="col-md-12 col-sm-11">
+                    <div class="form-group">
+                        {# Erreurs générales du formulaire #}
+                        {{ form_errors(form) }}
+                        <div class="row">
+                            <div class="form-group">
+
+                                {# Génération du label #}
+                                {{ form_label(form.nomExposition, "Nom", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(form.nomExposition) }}
+
+                                <div class="col-md-3">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(form.nomExposition, {'attr': {'class': 'form-control ajust'}}) }}
+                                </div>
+                                {# Génération du label #}
+                                {{ form_label(form.themes, "Thème", {'label_attr': {'class': 'col-md-1 col-md-offset-1 control-label ajust ajust2'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(form.themes) }}
+                                {% if idtheme is empty %}
+                                {% else %}
+                                    <script>
+                                        $(document).ready(function(){
+                                            if ({{ idtheme }} != "") {
+                                                var idtheme = "{{ idtheme }}";
+                                                $('#exposition_themes option[value='+idtheme+']').prop('selected', true);
+                                            } 
+                                        });
+                                    </script>
+                                {% endif %}
+                                <div class="col-md-3">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(form.themes, {'attr': {'class': 'form-control ajust'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+
+                                {# Génération du label #}
+                                {{ form_label(form.dateHeureDebutExposition, "Date Début", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(form.dateHeureDebutExposition) }}
+
+                                <div class="col-md-3">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(form.dateHeureDebutExposition, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+
+                                {# Génération du label #}
+                                {{ form_label(form.dateHeureFinExposition, "Date Fin", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(form.dateHeureFinExposition) }}
+
+                                <div class="col-md-3">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(form.dateHeureFinExposition, {'attr': {'class': 'form-control ajust calendar'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+
+                                {# Génération du label #}
+                                {{ form_label(form.evenement, "Evenement", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(form.evenement) }}
+
+                                <div class="col-md-9">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(form.evenement, {'attr': {'class': 'control-label ajust'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                {# Génération du label #}
+                                {{ form_label(form.organisateur, "Organisateur", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+                                
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(form.organisateur) }}
+                                {% if idcollectif is empty %}
+                                {% else %}
+                                    <script>
+                                        $(document).ready(function(){
+                                            if ({{ idcollectif }} != "") {
+                                                var idcollectif = "{{ idcollectif }}";
+                                                $('#exposition_organisateur option[value='+idcollectif+']').prop('selected', true);
+                                            } 
+                                        });
+                                    </script>
+                                {% endif %}
+                                {% if idauteur is empty %}
+                                {% else %}
+                                    <script>
+                                        $(document).ready(function(){
+                                            if ({{ idauteur }} != "") {
+                                                var idauteur = "{{ idauteur }}";
+                                                $('#exposition_organisateur option[value='+idauteur+']').prop('selected', true);
+                                            } 
+                                        });
+                                    </script>
+                                {% endif %}
+                                <div class="col-md-3 control-label ajust">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(form.organisateur, {'attr': {'class': 'form-control ajust'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                {# Génération du label #}
+                                {{ form_label(form.fichier, "Image", {'label_attr': {'class': 'col-md-2 control-label ajust'}})}}
+
+                                {# Affichage des erreurs pour ce champs précis #}
+                                {{ form_errors(form.fichier) }}
+
+                                <div class="col-md-3 control-label ajust file">
+                                    {# Génération de l'input #}
+                                    {{ form_widget(form.fichier, {'id': 'input-id', 'attr': {'class': 'file'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                {% image 'images/position.png'  
+                                    filter='jpegoptim' output='/images/position.png' %}
+                                    <img class="img" src="{{ asset_url }}" alt="Example" width="500" heugth="250"/>
+                                {% endimage %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    //Test Nom de l'exposition
+                    $('#exposition_nomExposition').change(function(event){
+                        var nomExpo = $(this).val();
+                        var idExpo = 0;
+                        if(nomExpo != '')
+                        {
+                            $.ajax({
+                                url: "{{ path('test_nom_exposition') }}", 
+                                method: "post",
+                                data: {nomExpo: nomExpo, idExpo: idExpo}
+                            }).done(function(msg){
+                                if(msg.data == "true"){
+                                    alert("Cette exposition existe déjà !");
+                                    //$('#newsub').hide('slow/400/fast');
+                                }else{
+                                    //$('#newsub').show('slow/400/fast');
+                                }
+                            });
+                        }
+                    });
+
+                    //Test Langue
+                    $('#newsub').click(function(event) {
+                        // On vérifie la diversité des langues
+                        // On récupère le nombre de langue afficher
+                        var nbLangue = $('.champslang').children('*').length;
+
+                        if(nbLangue > 1){
+                            tableLang = new Array();
+                            // Puis on boucle dessus
+                            for(var a = 0; a < nbLangue; a++){
+                                tableLang[a] = $('#exposition_textexpositions_'+a+'_langue option:selected').text();
+                            }
+                            // On trie par ordre alphabétique
+                            tableLang.sort();
+                            // Puis on reboucle en comparant chaque paires ordonnées
+                            var ordo = false;
+                            var nextTable = "";
+
+                            for(var b = 0; b < nbLangue; b++){
+                                // On vérifie si l'élément en cours est strictement égal au précédent
+                                if(tableLang[b] == nextTable){
+                                    ordo = true;
+                                }
+                                // On définit le précédent suivant
+                                nextTable = tableLang[b];
+                            }
+                            
+                            if(ordo){
+                                // On stoppe le comportement par défaut
+                                event.preventDefault();
+                                alert("Vous ne pouvez pas enregistrer plusieurs traductions avec la même langue !");
+                                return;
+                            }else{
+                               // Suppression de l'objet event
+                                delete event;
+                            }
+                        }
+
+                        //On regarde la diversité des oeuvres
+                        var nbOeuvre = $('.champsoeuvre').children('*').length;
+                        if(nbOeuvre > 1){
+                            tableOeuv = new Array();
+                            // Puis on boucle dessus
+                            for(var a = 0; a < nbOeuvre; a++){
+                                tableOeuv[a] = $('#exposition_emplacements_'+a+'_oeuvre option:selected').text();
+                            }
+                            // On trie par ordre alphabétique
+                            tableOeuv.sort();
+                            // Puis on reboucle en comparant chaque paires ordonnées
+                            var ordo = false;
+                            var nextTable = "";
+
+                            for(var b = 0; b < nbOeuvre; b++){
+                                // On vérifie si l'élément en cours est strictement égal au précédent
+                                if(tableOeuv[b] == nextTable){
+                                    ordo = true;
+                                }
+                                // On définit le précédent suivant
+                                nextTable = tableOeuv[b];
+                            }
+                            
+                            if(ordo){
+                                // On stoppe le comportement par défaut
+                                event.preventDefault();
+                                alert("Vous ne pouvez pas enregistrer plusieurs oeuvre avec le même nom !");
+                                return;
+                            }else{
+                               // Suppression de l'objet event
+                                delete event;
+                            }
+                        }
+
+                        //On regarde la diversité des positions
+                        var nbPosition = $('.champspos').children('*').length;
+                        if(nbPosition > 1){
+                            tablePos = new Array();
+                            // Puis on boucle dessus
+                            for(var a = 0; a < nbPosition; a++){
+                                tablePos[a] = $('#exposition_emplacements_'+a+'_position option:selected').text();
+                            }
+                            // On trie par ordre alphabétique
+                            tablePos.sort();
+                            // Puis on reboucle en comparant chaque paires ordonnées
+                            var ordo = false;
+                            var nextTable = "";
+
+                            for(var b = 0; b < nbPosition; b++){
+                                // On vérifie si l'élément en cours est strictement égal au précédent
+                                if(tablePos[b] == nextTable){
+                                    ordo = true;
+                                }
+                                // On définit le précédent suivant
+                                nextTable = tablePos[b];
+                            }
+                            
+                            if(ordo){
+                                // On stoppe le comportement par défaut
+                                event.preventDefault();
+                                alert("Vous ne pouvez pas enregistrer plusieurs oeuvre avec la même position !");
+                                return;
+                            }else{
+                               // Suppression de l'objet event
+                                delete event;
+                            }
+                        }
+                    });
+
+                    $('#exposition_dateHeureDebutExposition').blur(function(event){
+                        controleDate();
+                        controleDate2();
+                    });
+
+                    $('#exposition_dateHeureFinExposition').blur(function(event){
+                        controleDate();
+                        controleDate2();
+                    });
+
+                    // On vérifie le choix de l'collectif
+                    if($('#exposition_organisateur option:selected').text() == "Nouveau collectif")
+                    {
+                        // On stoppe le comportement par défaut
+                        event.preventDefault();
+                        alert("Vous devez choisir un auteur ou un collectif !");
+                    }
+                    else
+                    {
+                        // Suppression de l'objet event
+                        delete event;
+                    }
+
+                    // On vérifie le choix de l'auteur
+                    if($('#exposition_organisateur option:selected').text() == "Nouvel auteur")
+                    {
+                        // On stoppe le comportement par défaut
+                        event.preventDefault();
+                        alert("Vous devez choisir un auteur ou un collectif !");
+                    }
+                    else
+                    {
+                        // Suppression de l'objet event
+                        delete event;
+                    }
+
+                });
+            </script>
+            <div class="row">
+                <div class="row">
+                    <div id="oeuvre" class="col-md-12 col-sm-10 col-xs-10 oeuvre2">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <div class="col-md-1 col-sm-1 col-xs-1 labelpos position2 control-label ajust"></div>
+                                <div class="col-md-2 col-sm-1 col-xs-1 champspos control-label ajustSel1"></div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 labeloeuvre control-label ajust"></div>
+                                <div class="col-md-4 col-sm-2 col-xs-2 champsoeuvre control-label ajustSel2"></div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 labeletat control-label ajust"></div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 champsetat control-label ajustSel2"></div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 deplace2 control-label ajust "></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="champs" class="col-md-10 col-sm-10 col-xs-10">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-2 col-xs-2 labeldes control-label ajust ajust2"></div>
+                            <div class="col-md-4 col-sm-3 col-xs-10 champsdes"></div>
+                            <div class="col-md-1 col-sm-2 col-xs-2 labellang control-label ajust ajust2"></div>
+                            <div class="col-md-3 col-sm-3 col-xs-10 champslang control-label ajust ajust2"></div>
+                            <div class="col-md-1 col-sm-1 col-xs-1 deplace control-label ajust ajust2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="exposition" class="form-group col-md-12"></div>
+            <div id="oeuvre_proto" class="form-group col-md-12"></div>
+        </div>
+        <div class="row">
+            <div id="theme" class="form-group col-md-12"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-md-offset-4">
+                <input id="newsub" type="submit" value="Enregistrer" />
+                <a id="newret" href="{{ path('exposition_index') }}">retour</a>
+            </div>
+        </div>
+    </div>
+{% endspaceless %}
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+{% endblock body %}
+{% block javascripts %}
+    {# Gestion des formulaires de Type d'oeuvre #}
+    {% javascripts 'js/jquery.datetimepicker.full.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts 'js/fileinput.min.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#input-id").fileinput('refresh', {browseLabel: 'Select...', removeLabel: 'Delete'});
+        });
+    </script>
+    <script type="text/javascript">7
+        //Fonction pour controler les dates
+        function controleDate(){
+
+            var idExpo = 0;
+            var dateDebut = $('#exposition_dateHeureDebutExposition').val();
+            var dateFin = $('#exposition_dateHeureFinExposition').val();
+
+            if(dateDebut != '' && dateFin != '')
+            {
+                $.ajax({
+                    url: "{{ path('test_datediff_exposition') }}", 
+                    method: "post",
+                    data: {dateDebut: dateDebut,dateFin: dateFin}
+                }).done(function(msg){
+                    if(msg.data == "true"){
+                        alert("Cette exposition posséde une date de fin inférieur a la date de début et ou la date de fin est inférieur à 1 semaine par rapport à la date début, ou encore la date de fin est supérieur à 4 semaines par rapport à la date de début !");
+                        $('#newsub').hide();
+                    }else{
+                        $('#newsub').show();
+                    }
+                });
+            }
+        }
+
+        function controleDate2(){
+            var idExpo = 0;
+            var dateDebut = $('#exposition_dateHeureDebutExposition').val();
+            var dateFin = $('#exposition_dateHeureFinExposition').val();
+
+            if(dateDebut != '' && dateFin != '')
+            {
+                $.ajax({
+                    url: "{{ path('test_dateexpo_exposition') }}", 
+                    method: "post",
+                    data: {dateDebut: dateDebut,dateFin: dateFin, idExpo: idExpo}
+                }).done(function(msg){
+                    if(msg.data == "true"){
+                        alert("Cette exposition est à cheval sur une autre exposition ou alors la durée de séparation de 2 expositions y compris celle là est inférieur à 3 jours. Veuillez saisir de nouvelles date !");
+                        $('#newsub').hide();
+                    }else{
+                        $('#newsub').show();
+                    }
+                });
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.datetimepicker.setLocale('fr');
+            $('.calendar').datetimepicker({
+                dayOfWeekStart : 1,
+                lang:'fr',
+                format:'d/m/Y H:i',
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#exposition_organisateur').append('<option value="NewAut"> Nouvel Auteur </option>');
+            $('#exposition_organisateur').append('<option value="NewCol"> Nouveau Collectif </option>');
+            $('#exposition_organisateur').attr('onclick','FunctionNewAuteur()');
+
+            $('#exposition_themes').append('<option value="NewTheme"> Nouveau Thème </option>');
+            $('#exposition_themes').attr('onclick','FunctionNewTheme()');
+
+            //Génération des input pour les oeuvres
+            //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+            var $container2 = $('div#exposition_emplacements');
+            //On repositionne sur la page
+            $('#oeuvre_proto').append($container2);
+            var $newcontainer2 = $('#oeuvre_proto');
+            $('form#formExpo').append($newcontainer2);
+
+            //On ajoute un lien pour ajouter un nouveau oeuvre
+            var $addLink2 =$('<a type="button" id="add_oeuvre" class="glyphicon glyphicon-ok-circle vert"></a>');
+            $container2.append($addLink2);
+
+            $('form#formExpo').append($addLink2);
+
+            //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+            $addLink2.click(function(e) {
+                var nbOeuvre= $('#oeuvre .form-group .form-group .deplace2').find('a').length;
+                if(nbOeuvre < 30)
+                {
+                    addOeuvre($container2);
+                }
+                e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                return false;
+            });
+
+            //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+            var index2 = $container2.find(':input').length
+
+            //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+            if (index2==0) {
+                addOeuvre($container2);
+            } else {
+                //Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+                $container2.children('div').each(function () {
+                    addDeleteLink2($(this));
+                });
+            }
+
+            //La function qui ajoute un formulaire textexposition
+            function addOeuvre($Container2) {
+                // Dans le contenu de l'attribut "Data-prototype", on remplace
+
+                // le texte "__name__label__" qu'il contient par le label du champ
+
+                // le texte "__name__" qu'il contient par le numro du champ
+                var $prototype2 = $($container2.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index2+1)).replace(/__name__/g, index2));
+
+                $newprototype2 = $($prototype2);
+
+                var descendant2 = $newprototype2.find('*');
+
+                console.log(descendant2);
+
+                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                $('.labeletat').append(descendant2[3]);
+                $('.champsetat').append(descendant2[4]);
+                $('.labelpos').append(descendant2[9]);
+                $('.champspos').append(descendant2[10]);
+                $('.labeloeuvre').append(descendant2[42]);
+                $('.champsoeuvre').append(descendant2[43]);
+
+                // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                addDeleteLink2($('.deplace2'));
+
+                //on ajoute le prototype modifié à la fin de la balise <div>
+                $('#oeuvre').append($('#add_oeuvre'));
+
+                //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                index2++;
+            }
+            //la fonction qui ajoute un lien de suppression d'un text
+            function addDeleteLink2($prototype2) {
+                //création du lien 
+                $deleteLink2 = $('<a type="button" name="'+index2+'" class="glyphicon glyphicon-remove-circle red"></a>');
+
+                //Ajout du lien
+                $prototype2.append($deleteLink2);
+
+                //Ajout du listener sur le clic du lien
+                $deleteLink2.click(function(e) {
+
+                    // On récupère l'index du champs à supprimer
+                    var num2 = $(this).attr('name');
+                    // On supprime les champs un à un
+                    // Label pos
+                    $('[for="exposition_emplacements_'+num2+'_position"]').remove();
+                    // Champs pos
+                    $('[id="exposition_emplacements_'+num2+'_position"]').remove();
+                     // Label oeuvre
+                    $('[for="exposition_emplacements_'+num2+'_oeuvre"]').remove();
+                    // Champs oeuvre
+                    $('[id="exposition_emplacements_'+num2+'_oeuvre"]').remove();
+                     // Label etat
+                    $('[for="exposition_emplacements_'+num2+'_etat"]').remove();
+                    // Champs etat
+                    $('[id="exposition_emplacements_'+num2+'_etat"]').remove();
+
+                    $(this).remove();
+                    
+                    e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                    index2--;
+                    return false;
+                });
+;            }
+
+            //Génération des input pour les traductions
+            //On récupére la balise <div> en question qui contient l'attribut "data-prototype" qui nous intéresse.
+            var $container = $('div#exposition_textexpositions');
+            //On repositionne sur la page
+            $('#exposition').append($container);
+            var $newcontainer = $('#exposition');
+            $('form#formExpo').append($newcontainer);
+
+            //On ajoute un lien pour ajouter un nouveau textexposition
+            var $addLink =$('<a type="button" id="add_textexposition" class="glyphicon glyphicon-plus vert"></a>');
+            $container.append($addLink);
+
+            $('form#formExpo').append($addLink);
+
+            //On ajoute un nouveau champs à chaque clic sur le lien d'ajout.
+            $addLink.click(function(e) {
+                var nbTexte = $(document).find('textarea').length;
+                if(nbTexte < 5)
+                {
+                    addTextExposition($container);
+                }
+                e.preventDefault(); // évite qu'un # apparaisse dans l'url
+                return false;
+            });
+
+            //On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement 
+            var index = $container.find(':input').length
+            //On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle exposition par exemple).
+            if (index==0) {
+                addTextExposition($container);
+            } else {
+                //Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+                $container.children('div').each(function () {
+                    addDeleteLink($(this));
+                });
+            }
+
+            //La function qui ajoute un formulaire textexposition
+            function addTextExposition($Container) {
+                // Dans le contenu de l'attribut "Data-prototype", on remplace
+
+                // le texte "__name__label__" qu'il contient par le label du champ
+
+                // le texte "__name__" qu'il contient par le numro du champ
+                var $prototype = $($container.attr('data-prototype').replace(/__name__label_/g, 'Texte n°' + (index+1)).replace(/__name__/g, index));
+
+                $newprototype = $($prototype);
+
+                var descendant = $newprototype.find('*');
+
+                // Puis on les accompagne une par une dans les balises div mises en forme pour l'affichage
+                $('.labeldes').append(descendant[3]);
+                $('.champsdes').append(descendant[4]);
+                $('.labellang').append(descendant[6]);
+                $('.champslang').append(descendant[7]);
+
+                // On ajoute au prototype un lien pour pouvoir supprimer le telephone
+                addDeleteLink($('.deplace'));
+
+                //on ajoute le prototype modifié à la fin de la balise <div>
+                $('#champs').append($('#add_textexposition'));
+
+                //enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                index++;
+            }
+            //la fonction qui ajoute un lien de suppression d'un text
+            function addDeleteLink($prototype) {
+                //création du lien 
+                $deleteLink = $('<a type="button" name="'+index+'" class="glyphicon glyphicon-minus red"></a>');
+
+                //Ajout du lien
+                $prototype.append($deleteLink);
+
+                //Ajout du listener sur le clic du lien
+                $deleteLink.click(function(e) {
+
+                    // On récupère l'index du champs à supprimer
+                    var num = $(this).attr('name');
+                    // On supprime les champs un à un
+                    // Label descript
+                    $('[for="exposition_textexpositions_'+num+'_description"]').remove();
+                    // Champs descript
+                    $('[id="exposition_textexpositions_'+num+'_description"]').remove();
+                     // Label langue
+                    $('[for="exposition_textexpositions_'+num+'_langue"]').remove();
+                    // Champs langue
+                    $('[id="exposition_textexpositions_'+num+'_langue"]').remove();
+                    $(this).remove();
+                    
+                    e.preventDefault(); // Evite qu'un # apparaisse dans l'URL
+                    index--;
+                    return false;
+                });
+;            }
+        });
+
+        function FunctionNewAuteur() {
+
+            if($('#exposition_organisateur').val() == "NewAut"){
+                document.location.href="{{ path('auteur_new') }}";
+            }
+            if($('#exposition_organisateur').val() == "NewCol"){
+                document.location.href="{{ path('collectif_new') }}";
+            }
+        }
+
+        function FunctionNewTheme() {
+            if($('#exposition_themes').val() == "NewTheme"){
+                document.location.href="{{ path('theme_new') }}";
+            }
+        }
+    </script>
+{% endblock javascripts %}
